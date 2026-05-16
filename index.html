@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florería Pétalos - Tu flor ideal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            color: #5a4a4a;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 245, 240, 0.9);
+            border-radius: 60px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #e8a0a0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .tagline {
+            color: #b8a0a0;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 200, 200, 0.5);
+        }
+
+        .card h2 {
+            color: #e8a0a0;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .option-group {
+            margin-bottom: 25px;
+        }
+
+        .option-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #7a6a6a;
+        }
+
+        select, button, input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 50px;
+            border: 1px solid #f0c0c0;
+            background: white;
+            font-size: 1rem;
+            color: #5a4a4a;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        input {
+            cursor: text;
+        }
+
+        select:hover, select:focus, input:focus {
+            border-color: #e8a0a0;
+            outline: none;
+            box-shadow: 0 0 5px rgba(232, 160, 160, 0.3);
+        }
+
+        .flores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .flor-item {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .flor-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(232,160,160,0.2);
+        }
+
+        .flor-item.selected {
+            border-color: #e8a0a0;
+            background: #fff5f0;
+        }
+
+        .flor-emoji {
+            font-size: 2.5rem;
+        }
+
+        .extra-item {
+            display: inline-block;
+            margin: 8px;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #f0c0c0;
+        }
+
+        .extra-item.selected {
+            background: #e8a0a0;
+            color: white;
+            border-color: #e8a0a0;
+        }
+
+        button {
+            background: #e8a0a0;
+            color: white;
+            font-weight: bold;
+            border: none;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #d08080;
+            transform: scale(0.98);
+        }
+
+        .resumen {
+            background: #fff0f0;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .calendario {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        input[type="date"], input[type="email"], input[type="text"] {
+            margin: 10px 0;
+        }
+
+        .btn-google {
+            background: #4285f4;
+            margin-top: 10px;
+        }
+
+        .btn-google:hover {
+            background: #3367d6;
+        }
+
+        .btn-correo {
+            background: #34a853;
+        }
+
+        .btn-correo:hover {
+            background: #2d8e47;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #b8a0a0;
+        }
+
+        .recordatorio-form {
+            background: #fff8f0;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🌸 Florería Pétalos 🌸</h1>
+        <p class="tagline">Crea el ramo perfecto con los colores más dulces</p>
+    </header>
+
+    <!-- Personalización -->
+    <div class="card">
+        <h2>🌸 Personaliza tu ramo</h2>
+
+        <div class="option-group">
+            <label>📦 Tipo de papel</label>
+            <select id="papel">
+                <option value="Papel kraft reciclado|0">Papel kraft reciclado - $0</option>
+                <option value="Papel seda rosado|2">Papel seda rosado - $2</option>
+                <option value="Papel celofán transparente|1.5">Papel celofán transparente - $1.5</option>
+                <option value="Papel estampado flores|3">Papel estampado flores - $3</option>
+            </select>
+        </div>
+
+        <div class="option-group">
+            <label>🌹 Elige tus flores (puedes seleccionar varias)</label>
+            <div class="flores-grid" id="floresGrid">
+                <div class="flor-item" data-flor="Rosa roja" data-precio="3">
+                    <div class="flor-emoji">🌹</div>
+                    <div>Rosa roja</div>
+                    <small>$3</small>
+                </div>
+                <div class="flor-item" data-flor="Girasol" data-precio="2.5">
+                    <div class="flor-emoji">🌻</div>
+                    <div>Girasol</div>
+                    <small>$2.5</small>
+                </div>
+                <div class="flor-item" data-flor="Lirio blanco" data-precio="4">
+                    <div class="flor-emoji">⚜️</div>
+                    <div>Lirio blanco</div>
+                    <small>$4</small>
+                </div>
+                <div class="flor-item" data-flor="Margarita" data-precio="1.5">
+                    <div class="flor-emoji">🌼</div>
+                    <div>Margarita</div>
+                    <small>$1.5</small>
+                </div>
+                <div class="flor-item" data-flor="Lavanda" data-precio="2">
+                    <div class="flor-emoji">💜</div>
+                    <div>Lavanda</div>
+                    <small>$2</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="option-group">
+            <label>✨ Extras</label>
+            <div id="extras">
+                <span class="extra-item" data-extra="Tarjeta personalizada" data-precio="1">💌 Tarjeta ($1)</span>
+                <span class="extra-item" data-extra="Chocolate" data-precio="2">🍫 Chocolate ($2)</span>
+                <span class="extra-item" data-extra="Peluche pequeño" data-precio="5">🧸 Peluche ($5)</span>
+                <span class="extra-item" data-extra="Globos" data-precio="3">🎈 Globos ($3)</span>
+            </div>
+        </div>
+
+        <button id="calcularBtn">💐 Ver mi pedido</button>
+
+        <div class="resumen" id="resumen" style="display:none;">
+            <h3>✨ Tu ramo personalizado ✨</h3>
+            <div id="detallePedido"></div>
+            <p><strong>Total: $<span id="total">0</span></strong></p>
+        </div>
+    </div>
+
+    <!-- Recordatorios con Google Calendar y Correo -->
+    <div class="card">
+        <h2>📅 Recordatorio de fechas importantes</h2>
+        <div class="calendario">
+            <p>📧 Recibe recordatorios por correo o agrégalos a tu Google Calendar</p>
+            
+            <div class="recordatorio-form">
+                <input type="text" id="nombreCliente" placeholder="Tu nombre" required>
+                <input type="email" id="emailCliente" placeholder="Tu correo electrónico" required>
+                <input type="date" id="fechaRecordatorio" required>
+                <input type="text" id="eventoPersonalizado" placeholder="¿Qué fecha especial es? (ej. Aniversario, Cumpleaños)">
+                
+                <button id="recordatorioCorreoBtn" class="btn-correo">📧 Enviar recordatorio a mi correo</button>
+                <button id="recordatorioGoogleBtn" class="btn-google">📅 Agregar a Google Calendar</button>
+            </div>
+            
+            <p style="font-size:0.8rem; margin-top:15px; color:#888;">
+                💡 Los recordatorios por correo se enviarán automáticamente<br>
+                📅 Al hacer clic en "Agregar a Calendar" se abrirá una ventana de Google
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        🌸 Hecho con amor para tus momentos especiales • 💌 ¿Dudas? Contáctanos: flores@petalos.com
+    </footer>
+</div>
+
+<script>
+    // Selección de flores
+    let floresSeleccionadas = [];
+    let extrasSeleccionados = [];
+
+    // Manejo de flores
+    document.querySelectorAll('.flor-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const flor = item.dataset.flor;
+            const precio = parseFloat(item.dataset.precio);
+            const index = floresSeleccionadas.findIndex(f => f.nombre === flor);
+            
+            if(index === -1) {
+                floresSeleccionadas.push({nombre: flor, precio: precio});
+                item.classList.add('selected');
+            } else {
+                floresSeleccionadas.splice(index,1);
+                item.classList.remove('selected');
+            }
+        });
+    });
+
+    // Manejo de extras
+    document.querySelectorAll('.extra-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const extra = item.dataset.extra;
+            const precio = parseFloat(item.dataset.precio);
+            const index = extrasSeleccionados.findIndex(e => e.nombre === extra);
+            
+            if(index === -1) {
+                extrasSeleccionados.push({nombre: extra, precio: precio});
+                item.classList.add('selected');
+            } else {
+                extrasSeleccionados.splice(index,1);
+                item.classList.remove('selected');
+            }
+        });
+    });
+
+    // Calcular y mostrar resumen
+    document.getElementById('calcularBtn').addEventListener('click', () => {
+        const papelSelect = document.getElementById('papel');
+        const papelInfo = papelSelect.value.split('|');
+        const papelTexto = papelInfo[0];
+        const papelPrecio = parseFloat(papelInfo[1]);
+        
+        let totalFlores = floresSeleccionadas.reduce((sum, f) => sum + f.precio, 0);
+        let totalExtras = extrasSeleccionados.reduce((sum, e) => sum + e.precio, 0);
+        let total = papelPrecio + totalFlores + totalExtras;
+        
+        let detalle = `<p><strong>Papel:</strong> ${papelTexto}</p>`;
+        detalle += `<p><strong>Flores:</strong> ${floresSeleccionadas.map(f=>f.nombre).join(', ') || 'Ninguna'}</p>`;
+        detalle += `<p><strong>Extras:</strong> ${extrasSeleccionados.map(e=>e.nombre).join(', ') || 'Ninguno'}</p>`;
+        
+        document.getElementById('detallePedido').innerHTML = detalle;
+        document.getElementById('total').innerText = total.toFixed(2);
+        document.getElementById('resumen').style.display = 'block';
+    });
+
+    // Función para generar el mensaje del pedido
+    function obtenerMensajePedido() {
+        const papelSelect = document.getElementById('papel');
+        const papelTexto = papelSelect.options[papelSelect.selectedIndex].text;
+        const flores = floresSeleccionadas.map(f=>f.nombre).join(', ') || 'Ninguna';
+        const extras = extrasSeleccionados.map(e=>e.nombre).join(', ') || 'Ninguno';
+        const total = document.getElementById('total').innerText;
+        
+        return `🌸 Pedido Florería Pétalos:\nPapel: ${papelTexto}\nFlores: ${flores}\nExtras: ${extras}\nTotal: $${total}`;
+    }
+
+    // 1. Recordatorio por CORREO (usa mailto: - el cliente envía el correo manualmente)
+    document.getElementById('recordatorioCorreoBtn').addEventListener('click', () => {
+        const nombre = document.getElementById('nombreCliente').value;
+        const email = document.getElementById('emailCliente').value;
+        const fecha = document.getElementById('fechaRecordatorio').value;
+        const evento = document.getElementById('eventoPersonalizado').value;
+        
+        if(!nombre || !email || !fecha) {
+            alert('❌ Por favor, completa tu nombre, correo y la fecha del recordatorio');
+            return;
+        }
+        
+        // Validar formato de email básico
+        if(!email.includes('@') || !email.includes('.')) {
+            alert('❌ Por favor, ingresa un correo electrónico válido');
+            return;
+        }
+        
+        const pedidoInfo = obtenerMensajePedido();
+        
+        // Crear el contenido del correo
+        const asunto = `📅 Recordatorio: ${evento || 'Fecha especial'} - Florería Pétalos`;
+        const cuerpo = `Hola ${nombre},\n\nTe recordamos tu fecha especial: ${fecha}\n${evento ? `Evento: ${evento}\n` : ''}\n\nInformación de tu pedido:\n${pedidoInfo}\n\n¡Gracias por confiar en Florería Pétalos! 🌸\n\nEste es un recordatorio automático. Para cualquier duda, responde a este correo.`;
+        
+        // Abrir cliente de correo predeterminado
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+        
+        alert(`✅ Se abrirá tu correo para enviar el recordatorio a ${email}\n📅 Fecha: ${fecha}\n\nSolo presiona "Enviar" y listo.`);
+    });
+
+    // 2. Agregar a GOOGLE CALENDAR
+    document.getElementById('recordatorioGoogleBtn').addEventListener('click', () => {
+        const nombre = document.getElementById('nombreCliente').value;
+        const fecha = document.getElementById('fechaRecordatorio').value;
+        const evento = document.getElementById('eventoPersonalizado').value;
+        
+        if(!nombre || !fecha) {
+            alert('❌ Por favor, completa tu nombre y la fecha del recordatorio');
+            return;
+        }
+        
+        if(!evento) {
+            alert('❌ Por favor, escribe qué fecha especial es (ej. Cumpleaños, Aniversario)');
+            return;
+        }
+        
+        // Convertir fecha a formato YYYYMMDDTHHMMSSZ (todo el día)
+        const fechaObj = new Date(fecha);
+        const fechaInicio = fechaObj.toISOString().replace(/[-:]/g, '').split('.')[0];
+        const fechaFin = new Date(fechaObj.getTime() + 24*60*60*1000).toISOString().replace(/[-:]/g, '').split('.')[0];
+        
+        const titulo = `🌸 ${evento} - Florería Pétalos`;
+        const descripcion = `Recordatorio para ${nombre}\n\n${obtenerMensajePedido()}\n\nNo olvides celebrar este día especial. ¡Gracias por preferir Florería Pétalos!`;
+        
+        // Crear URL de Google Calendar
+        const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${fechaInicio}/${fechaFin}&details=${encodeURIComponent(descripcion)}&sf=true&output=xml`;
+        
+        // Abrir en nueva pestaña
+        window.open(googleCalendarUrl, '_blank');
+        
+        alert(`✅ Se abrirá Google Calendar para que agregues el evento:\n📅 ${evento}\n📆 Fecha: ${fecha}\n\nSolo presiona "Guardar" y el evento quedará en tu calendario.`);
+    });
+</script>
+</body>
+</html>
