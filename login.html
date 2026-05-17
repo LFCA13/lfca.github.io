@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Florería Pétalos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, #fff9f7 0%, #ffece5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 48px;
+            padding: 40px 32px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(232, 160, 160, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #e8a0a0, #c28484);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo p {
+            color: #b8958a;
+            font-size: 0.8rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            border-bottom: 2px solid #f0e0da;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #b8958a;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #e8a0a0;
+            border-bottom: 3px solid #e8a0a0;
+        }
+
+        .form-panel {
+            display: none;
+        }
+
+        .form-panel.active {
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            margin: 12px 0;
+            border-radius: 60px;
+            border: 1px solid #f0bcb0;
+            font-size: 0.95rem;
+            background: white;
+            transition: 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #e8a0a0;
+            box-shadow: 0 0 0 3px rgba(232,160,160,0.2);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: #e8a0a0;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #d08080;
+            transform: scale(0.98);
+        }
+
+        .membresia-info {
+            background: #fff5f0;
+            border-radius: 24px;
+            padding: 16px;
+            margin: 16px 0;
+            font-size: 0.85rem;
+        }
+
+        .membresia-opcion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 60px;
+            margin: 8px 0;
+            cursor: pointer;
+            border: 1px solid #f0bcb0;
+            transition: 0.2s;
+        }
+
+        .membresia-opcion.selected {
+            background: #fce8e2;
+            border-color: #e8a0a0;
+        }
+
+        .membresia-opcion input {
+            width: auto;
+            margin: 0;
+        }
+
+        .link-volver {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .link-volver a {
+            color: #e8a0a0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>🌸 PÉTALOS</h1>
+            <p>flores con alma</p>
+        </div>
+
+        <!-- Pestañas -->
+        <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="login">Iniciar Sesión</button>
+            <button class="tab-btn" data-tab="register">Registrarme</button>
+        </div>
+
+        <!-- Panel de Login -->
+        <div id="loginPanel" class="form-panel active">
+            <input type="email" id="loginEmail" placeholder="Correo electrónico">
+            <input type="password" id="loginPassword" placeholder="Contraseña">
+            <button id="btnLogin" class="btn-primary">🌸 Iniciar Sesión</button>
+            <p style="text-align: center; font-size: 0.75rem; margin-top: 16px; color: #b8958a;">
+                Demo: cualquier email/contraseña funciona
+            </p>
+        </div>
+
+        <!-- Panel de Registro -->
+        <div id="registerPanel" class="form-panel">
+            <input type="text" id="regNombre" placeholder="Tu nombre completo">
+            <input type="email" id="regEmail" placeholder="Correo electrónico">
+            <input type="password" id="regPassword" placeholder="Contraseña">
+            
+            <div class="membresia-info">
+                <p style="margin-bottom: 12px;">🎁 Elige tu membresía (demo visual)</p>
+                
+                <div class="membresia-opcion" data-membresia="Plata">
+                    <input type="radio" name="membresia" value="Plata" checked> 
+                    <div>
+                        <strong>🥈 Plata</strong><br>
+                        <small>Envíos gratis cada 2 meses</small>
+                    </div>
+                </div>
+                
+                <div class="membresia-opcion" data-membresia="Oro">
+                    <input type="radio" name="membresia" value="Oro"> 
+                    <div>
+                        <strong>🥇 Oro</strong><br>
+                        <small>10% off + envíos gratis</small>
+                    </div>
+                </div>
+                
+                <div class="membresia-opcion" data-membresia="VIP">
+                    <input type="radio" name="membresia" value="VIP"> 
+                    <div>
+                        <strong>💎 VIP</strong><br>
+                        <small>15% off + envío exprés + ramo sorpresa en tu cumpleaños</small>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="btnRegister" class="btn-primary">💐 Crear cuenta</button>
+        </div>
+
+        <div class="link-volver">
+            <a href="index.html">← Volver a la tienda</a>
+        </div>
+    </div>
+
+    <script>
+        // Cambio de pestañas
+        const tabs = document.querySelectorAll('.tab-btn');
+        const loginPanel = document.getElementById('loginPanel');
+        const registerPanel = document.getElementById('registerPanel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                if (tab.dataset.tab === 'login') {
+                    loginPanel.classList.add('active');
+                    registerPanel.classList.remove('active');
+                } else {
+                    loginPanel.classList.remove('active');
+                    registerPanel.classList.add('active');
+                }
+            });
+        });
+
+        // Selección visual de membresía
+        const membresiaOptions = document.querySelectorAll('.membresia-opcion');
+        membresiaOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                const radio = opt.querySelector('input[type="radio"]');
+                radio.checked = true;
+                
+                membresiaOptions.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+            });
+        });
+
+        // Función para guardar usuario
+        function guardarUsuario(nombre, email, membresia) {
+            const usuario = {
+                nombre: nombre,
+                email: email,
+                membresia: membresia,
+                fechaRegistro: new Date().toISOString()
+            };
+            localStorage.setItem('usuarioFloreria', JSON.stringify(usuario));
+            return usuario;
+        }
+
+        // REGISTRO
+        document.getElementById('btnRegister').addEventListener('click', () => {
+            const nombre = document.getElementById('regNombre').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const membresiaSeleccionada = document.querySelector('input[name="membresia"]:checked').value;
+
+            if (!nombre || !email || !password) {
+                alert('❌ Por favor, completa todos los campos');
+                return;
+            }
+
+            const usuario = guardarUsuario(nombre, email, membresiaSeleccionada);
+            
+            // Mostrar mensaje de éxito
+            alert(`✅ ¡Bienvenid@ ${nombre}!\n\n🌸 Membresía: ${membresiaSeleccionada}\n\nSerás redirigido a la tienda.`);
+            
+            // Redirigir a la página principal
+            window.location.href = 'index.html';
+        });
+
+        // LOGIN (fake - cualquier credencial funciona si existe en localStorage)
+        document.getElementById('btnLogin').addEventListener('click', () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('❌ Ingresa tu correo y contraseña');
+                return;
+            }
+
+            // Buscar usuario en localStorage
+            const usuarioGuardado = localStorage.getItem('usuarioFloreria');
+            
+            if (usuarioGuardado) {
+                const usuario = JSON.parse(usuarioGuardado);
+                if (usuario.email === email) {
+                    alert(`✅ ¡Bienvenid@ de vuelta ${usuario.nombre}!\n\n🌸 Membresía: ${usuario.membresia}`);
+                    window.location.href = 'index.html';
+                } else {
+                    alert('❌ Correo no encontrado. ¿Quieres registrarte?');
+                }
+            } else {
+                alert('❌ No hay usuarios registrados. Crea una cuenta primero.');
+            }
+        });
+    </script>
+</body>
+</html>
