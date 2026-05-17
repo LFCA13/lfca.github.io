@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Florería Pétalos | Flores con alma</title>
+    <title>Promesa en pétalos | Flores con alma</title>
     <style>
         * {
             margin: 0;
@@ -46,7 +46,7 @@
 
         .logo h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             background: linear-gradient(135deg, #e8a0a0, #c28484);
             -webkit-background-clip: text;
             background-clip: text;
@@ -54,8 +54,9 @@
         }
 
         .logo p {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #b8958a;
+            letter-spacing: 1px;
         }
 
         .nav-menu {
@@ -340,7 +341,7 @@
 <header>
     <div class="container header-flex">
         <div class="logo">
-            <h1>🌸 PÉTALOS</h1>
+            <h1>🌺 Promesa en pétalos</h1>
             <p>flores con alma</p>
         </div>
         <div class="menu-icon" id="menuIcon">🍃</div>
@@ -435,72 +436,71 @@
 </main>
 
 <footer>
-    <p>🌸 Florería Pétalos – Flores con historia</p>
+    <p>🌺 Promesa en pétalos – Flores con historia</p>
     <p>💌 ¿Necesitas ayuda? Escríbenos por WhatsApp</p>
 </footer>
 
 <script>
     const WHATSAPP_NUMERO = "5219871009151";
 
-    // DATOS CORRECTOS DE SENTIMIENTOS (con descripción y precio)
+    // DATOS DE SENTIMIENTOS CON PRECIOS EN COLOMBIA (COP)
     const SENTIMIENTOS_COMPLETOS = [
         { 
             nombre: "Te extraño", 
             emoji: "🌙", 
             descripcion: "Lavanda y girasoles para ese vacío",
-            precio: "$350",
-            mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial.",
+            precio: "$70,000 COP",
+            mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $70,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo especial.",
             imagen: "te_extrano.png"
         },
         { 
             nombre: "Te amo", 
             emoji: "❤️", 
             descripcion: "Rosas rojas, pasión eterna",
-            precio: "$520",
-            mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor.",
+            precio: "$105,000 COP",
+            mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $105,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor.",
             imagen: "te_amo.png"
         },
         { 
             nombre: "Perdón", 
             emoji: "🤍", 
             descripcion: "Flores blancas, paz y reinicio",
-            precio: "$390",
-            mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón.",
+            precio: "$78,000 COP",
+            mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $78,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón.",
             imagen: "perdon.png"
         },
         { 
             nombre: "Cumpleaños", 
             emoji: "🎂", 
             descripcion: "Alegría y colores vibrantes",
-            precio: "$480",
-            mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños.",
+            precio: "$95,000 COP",
+            mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $95,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños.",
             imagen: "cumpleanos.png"
         },
         { 
             nombre: "Graduación", 
             emoji: "🎓", 
             descripcion: "Éxito y nuevos comienzos",
-            precio: "$600",
-            mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado.",
+            precio: "$120,000 COP",
+            mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $120,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado.",
             imagen: "graduacion.png"
         },
         { 
             nombre: "Flores aesthetic", 
             emoji: "🌸", 
             descripcion: "Minimalismo y tendencia",
-            precio: "$450",
-            mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic.",
+            precio: "$90,000 COP",
+            mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $90,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic.",
             imagen: "aesthetic.png"
         }
     ];
 
     const FLORES_ORIGINALES = ["Rosa roja", "Girasol", "Lavanda", "Margarita"];
     const PAPELES_ORIGINALES = ["Kraft", "Rosado pastel", "Celofán transparente"];
-    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
+    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $5,000 COP", "Tarjeta + $3,000 COP"];
 
     let usuarioActual = null;
 
-    // ========== FUNCIONES ==========
     function cargarUsuarioDesdeLocalStorage() {
         const usuarioGuardado = localStorage.getItem('usuarioFloreria');
         if (usuarioGuardado) {
@@ -590,7 +590,6 @@
         });
     }
 
-    // Personalizador
     function obtenerImagenRamo(flor, papel) {
         const florMap = {
             "Rosa roja": "rosa",
@@ -676,7 +675,7 @@
         if (conMembresia && usuarioActual) {
             membresiaTexto = `%0A👤 Membresía: ${usuarioActual.membresia}`;
         }
-        return `🌸 *PEDIDO PERSONALIZADO - FLORERÍA PÉTALOS* 🌸%0A%0A` +
+        return `🌺 *PEDIDO PERSONALIZADO - PROMESA EN PÉTALOS* 🌺%0A%0A` +
                `✨ *Flores:* ${seleccionFlor}%0A` +
                `📦 *Papel:* ${seleccionPapel}%0A` +
                `🎁 *Extra:* ${seleccionExtra}%0A` +
@@ -719,7 +718,7 @@
         const fechaObj = new Date(fecha);
         const fechaInicio = fechaObj.toISOString().replace(/[-:]/g, '').split('.')[0];
         const fechaFin = new Date(fechaObj.getTime() + 86400000).toISOString().replace(/[-:]/g, '').split('.')[0];
-        const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("🌸 "+evento)}&dates=${fechaInicio}/${fechaFin}&details=${encodeURIComponent("Recordatorio desde Florería Pétalos")}`;
+        const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("🌺 "+evento)}&dates=${fechaInicio}/${fechaFin}&details=${encodeURIComponent("Recordatorio desde Promesa en pétalos")}`;
         window.open(url, '_blank');
         alert("✅ Se abrirá Google Calendar para guardar el evento");
         document.getElementById('eventoNombre').value = '';
