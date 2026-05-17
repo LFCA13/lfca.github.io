@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin | Florería Pétalos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, #fff9f7 0%, #ffece5 100%);
+            padding: 30px;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: #d48c7c;
+            margin-bottom: 20px;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 32px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .admin-card h2 {
+            color: #e8a0a0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0bcb0;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #5a3e36;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 60px;
+            border: 1px solid #f0bcb0;
+            font-family: inherit;
+        }
+
+        textarea {
+            border-radius: 20px;
+            resize: vertical;
+        }
+
+        button {
+            background: #e8a0a0;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #d08080;
+        }
+
+        .btn-peligro {
+            background: #d9534f;
+        }
+
+        .btn-peligro:hover {
+            background: #c9302c;
+        }
+
+        .btn-exito {
+            background: #5cb85c;
+        }
+
+        .lista-items {
+            margin-top: 20px;
+            border-top: 1px solid #f0bcb0;
+            padding-top: 20px;
+        }
+
+        .item {
+            background: #fff5f0;
+            padding: 12px 15px;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-buttons button {
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            margin: 0 5px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .mensaje-ejemplo {
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+
+        .volver-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #e8a0a0;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🌸 Panel de Administrador</h1>
+    <p style="margin-bottom: 20px;">⚠️ Los cambios se guardan en TU navegador (solo los ves tú). Otros usuarios ven la versión original.</p>
+
+    <!-- SECCIÓN: FLORES -->
+    <div class="admin-card">
+        <h2>🌹 Gestionar Flores</h2>
+        <div class="grid-2">
+            <div>
+                <h3>Agregar nueva flor</h3>
+                <div class="form-group">
+                    <label>Nombre de la flor</label>
+                    <input type="text" id="nuevaFlorNombre" placeholder="Ej. Tulipán">
+                </div>
+                <div class="form-group">
+                    <label>URL de imagen (opcional, usa una de internet)</label>
+                    <input type="text" id="nuevaFlorImagen" placeholder="https://...">
+                </div>
+                <button id="btnAgregarFlor">➕ Agregar Flor</button>
+            </div>
+            <div>
+                <h3>Flores actuales</h3>
+                <div id="listaFlores" class="lista-items"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN: PAPELES -->
+    <div class="admin-card">
+        <h2>📦 Gestionar Papeles/Envolturas</h2>
+        <div class="grid-2">
+            <div>
+                <h3>Agregar nuevo papel</h3>
+                <div class="form-group">
+                    <label>Nombre del papel</label>
+                    <input type="text" id="nuevoPapelNombre" placeholder="Ej. Papel metalizado">
+                </div>
+                <button id="btnAgregarPapel">➕ Agregar Papel</button>
+            </div>
+            <div>
+                <h3>Papeles actuales</h3>
+                <div id="listaPapeles" class="lista-items"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN: EXTRAS -->
+    <div class="admin-card">
+        <h2>🎁 Gestionar Extras</h2>
+        <div class="grid-2">
+            <div>
+                <h3>Agregar nuevo extra</h3>
+                <div class="form-group">
+                    <label>Nombre del extra (ej. Chocolates + $30)</label>
+                    <input type="text" id="nuevoExtraNombre" placeholder="Ej. Chocolates + $30">
+                </div>
+                <button id="btnAgregarExtra">➕ Agregar Extra</button>
+            </div>
+            <div>
+                <h3>Extras actuales</h3>
+                <div id="listaExtras" class="lista-items"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECCIÓN: EDITAR MENSAJES DE SENTIMIENTOS -->
+    <div class="admin-card">
+        <h2>💖 Editar mensajes de Sentimientos (WhatsApp)</h2>
+        <p>Los mensajes que se envían al hacer clic en cada tarjeta de sentimiento.</p>
+        <div id="listaSentimientos"></div>
+        <button id="btnGuardarSentimientos" class="btn-exito">💾 Guardar todos los cambios de sentimientos</button>
+    </div>
+
+    <!-- BOTONES GLOBALES -->
+    <div style="margin-top: 20px;">
+        <button id="btnResetearTodo" class="btn-peligro">⚠️ Resetear todo a valores originales</button>
+        <a href="index.html" class="volver-link">← Volver a la tienda</a>
+    </div>
+</div>
+
+<script>
+    // ========== CLAVES DE LOCALSTORAGE ==========
+    const STORAGE_FLORES = "admin_flores_personalizadas";
+    const STORAGE_PAPELES = "admin_papeles_personalizados";
+    const STORAGE_EXTRAS = "admin_extras_personalizados";
+    const STORAGE_SENTIMIENTOS = "admin_sentimientos_personalizados";
+
+    // ========== VALORES ORIGINALES ==========
+    const FLORES_ORIGINALES = ["Rosa roja", "Girasol", "Lavanda", "Margarita"];
+    const PAPELES_ORIGINALES = ["Kraft", "Rosado pastel", "Celofán transparente"];
+    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
+    
+    const SENTIMIENTOS_ORIGINALES = [
+        { nombre: "Te extraño", emoji: "🌙", mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial." },
+        { nombre: "Te amo", emoji: "❤️", mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor." },
+        { nombre: "Perdón", emoji: "🤍", mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón." },
+        { nombre: "Cumpleaños", emoji: "🎂", mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños." },
+        { nombre: "Graduación", emoji: "🎓", mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado." },
+        { nombre: "Flores aesthetic", emoji: "🌸", mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic." }
+    ];
+
+    // ========== FUNCIONES PARA CARGAR/GUARDAR ==========
+    function getFlores() {
+        const guardadas = localStorage.getItem(STORAGE_FLORES);
+        return guardadas ? JSON.parse(guardadas) : [...FLORES_ORIGINALES];
+    }
+
+    function getPapeles() {
+        const guardadas = localStorage.getItem(STORAGE_PAPELES);
+        return guardadas ? JSON.parse(guardadas) : [...PAPELES_ORIGINALES];
+    }
+
+    function getExtras() {
+        const guardadas = localStorage.getItem(STORAGE_EXTRAS);
+        return guardadas ? JSON.parse(guardadas) : [...EXTRAS_ORIGINALES];
+    }
+
+    function getSentimientos() {
+        const guardados = localStorage.getItem(STORAGE_SENTIMIENTOS);
+        return guardados ? JSON.parse(guardados) : JSON.parse(JSON.stringify(SENTIMIENTOS_ORIGINALES));
+    }
+
+    function guardarFlores(flores) {
+        localStorage.setItem(STORAGE_FLORES, JSON.stringify(flores));
+        renderizarFlores();
+    }
+
+    function guardarPapeles(papeles) {
+        localStorage.setItem(STORAGE_PAPELES, JSON.stringify(papeles));
+        renderizarPapeles();
+    }
+
+    function guardarExtras(extras) {
+        localStorage.setItem(STORAGE_EXTRAS, JSON.stringify(extras));
+        renderizarExtras();
+    }
+
+    function guardarSentimientos(sentimientos) {
+        localStorage.setItem(STORAGE_SENTIMIENTOS, JSON.stringify(sentimientos));
+        renderizarSentimientos();
+    }
+
+    // ========== RENDERIZAR LISTAS ==========
+    function renderizarFlores() {
+        const flores = getFlores();
+        const container = document.getElementById('listaFlores');
+        container.innerHTML = '';
+        flores.forEach((flor, idx) => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.innerHTML = `
+                <div class="item-info">🌼 ${flor}</div>
+                <div class="item-buttons">
+                    <button class="btn-peligro" onclick="eliminarFlor(${idx})">🗑️</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function renderizarPapeles() {
+        const papeles = getPapeles();
+        const container = document.getElementById('listaPapeles');
+        container.innerHTML = '';
+        papeles.forEach((papel, idx) => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.innerHTML = `
+                <div class="item-info">📦 ${papel}</div>
+                <div class="item-buttons">
+                    <button class="btn-peligro" onclick="eliminarPapel(${idx})">🗑️</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function renderizarExtras() {
+        const extras = getExtras();
+        const container = document.getElementById('listaExtras');
+        container.innerHTML = '';
+        extras.forEach((extra, idx) => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.innerHTML = `
+                <div class="item-info">🎁 ${extra}</div>
+                <div class="item-buttons">
+                    <button class="btn-peligro" onclick="eliminarExtra(${idx})">🗑️</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function renderizarSentimientos() {
+        const sentimientos = getSentimientos();
+        const container = document.getElementById('listaSentimientos');
+        container.innerHTML = '';
+        sentimientos.forEach((sent, idx) => {
+            const div = document.createElement('div');
+            div.className = 'item';
+            div.style.flexDirection = 'column';
+            div.style.alignItems = 'stretch';
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <strong>${sent.emoji} ${sent.nombre}</strong>
+                    <button class="btn-peligro" onclick="eliminarSentimiento(${idx})" style="font-size:0.7rem;">🗑️ Restaurar original</button>
+                </div>
+                <textarea id="msgSent_${idx}" rows="3" style="margin-top: 8px;">${sent.mensaje}</textarea>
+                <div class="mensaje-ejemplo">💡 Este mensaje se enviará por WhatsApp al hacer clic en "${sent.nombre}"</div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    // ========== FUNCIONES DE ELIMINACIÓN ==========
+    window.eliminarFlor = (idx) => {
+        const flores = getFlores();
+        flores.splice(idx, 1);
+        guardarFlores(flores);
+    };
+    window.eliminarPapel = (idx) => {
+        const papeles = getPapeles();
+        papeles.splice(idx, 1);
+        guardarPapeles(papeles);
+    };
+    window.eliminarExtra = (idx) => {
+        const extras = getExtras();
+        extras.splice(idx, 1);
+        guardarExtras(extras);
+    };
+    window.eliminarSentimiento = (idx) => {
+        const sentimientos = getSentimientos();
+        sentimientos[idx] = JSON.parse(JSON.stringify(SENTIMIENTOS_ORIGINALES[idx]));
+        guardarSentimientos(sentimientos);
+    };
+
+    // ========== AGREGAR NUEVOS ==========
+    document.getElementById('btnAgregarFlor').addEventListener('click', () => {
+        const nombre = document.getElementById('nuevaFlorNombre').value.trim();
+        if (nombre) {
+            const flores = getFlores();
+            flores.push(nombre);
+            guardarFlores(flores);
+            document.getElementById('nuevaFlorNombre').value = '';
+        }
+    });
+
+    document.getElementById('btnAgregarPapel').addEventListener('click', () => {
+        const nombre = document.getElementById('nuevoPapelNombre').value.trim();
+        if (nombre) {
+            const papeles = getPapeles();
+            papeles.push(nombre);
+            guardarPapeles(papeles);
+            document.getElementById('nuevoPapelNombre').value = '';
+        }
+    });
+
+    document.getElementById('btnAgregarExtra').addEventListener('click', () => {
+        const nombre = document.getElementById('nuevoExtraNombre').value.trim();
+        if (nombre) {
+            const extras = getExtras();
+            extras.push(nombre);
+            guardarExtras(extras);
+            document.getElementById('nuevoExtraNombre').value = '';
+        }
+    });
+
+    document.getElementById('btnGuardarSentimientos').addEventListener('click', () => {
+        const sentimientos = getSentimientos();
+        const nuevosSentimientos = [...sentimientos];
+        sentimientos.forEach((_, idx) => {
+            const textarea = document.getElementById(`msgSent_${idx}`);
+            if (textarea) {
+                nuevosSentimientos[idx].mensaje = textarea.value;
+            }
+        });
+        guardarSentimientos(nuevosSentimientos);
+        alert("✅ Mensajes de sentimientos guardados correctamente");
+    });
+
+    document.getElementById('btnResetearTodo').addEventListener('click', () => {
+        if (confirm("⚠️ ¿Estás segura/o? Esto borrará todas tus flores, papeles, extras y mensajes personalizados. Se restaurarán los valores originales.")) {
+            localStorage.removeItem(STORAGE_FLORES);
+            localStorage.removeItem(STORAGE_PAPELES);
+            localStorage.removeItem(STORAGE_EXTRAS);
+            localStorage.removeItem(STORAGE_SENTIMIENTOS);
+            renderizarFlores();
+            renderizarPapeles();
+            renderizarExtras();
+            renderizarSentimientos();
+            alert("✅ Todo ha sido restaurado a los valores originales");
+        }
+    });
+
+    // ========== INICIALIZAR ==========
+    renderizarFlores();
+    renderizarPapeles();
+    renderizarExtras();
+    renderizarSentimientos();
+</script>
+</body>
+</html>
