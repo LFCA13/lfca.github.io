@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Florería Pétalos - Tu flor ideal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Florería Pétalos | Flores con alma</title>
     <style>
         * {
             margin: 0;
@@ -12,429 +12,778 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
-            color: #5a4a4a;
-            padding: 20px;
+            font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #fff9f7 0%, #ffece5 100%);
+            color: #4a3a35;
+            scroll-behavior: smooth;
         }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 24px;
         }
 
+        /* Header */
         header {
+            padding: 20px 0;
+            background: rgba(255, 245, 240, 0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(232, 160, 160, 0.3);
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #e8a0a0, #c28484);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: #b8958a;
+        }
+
+        /* Menú hamburguesa */
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: #5a3e36;
+            font-weight: 500;
+        }
+        .menu-icon {
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* Secciones */
+        section {
+            padding: 60px 0;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
             text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 245, 240, 0.9);
-            border-radius: 60px;
-            margin-bottom: 30px;
+            margin-bottom: 48px;
+            color: #d48c7c;
+        }
+        .section-title::after {
+            content: '';
+            width: 70px;
+            height: 3px;
+            background: #f0bcb0;
+            display: block;
+            margin: 12px auto 0;
+        }
+
+        /* Colecciones - las tarjetas ahora tienen cursor pointer */
+        .colecciones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        .card-coleccion {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 32px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
-
-        h1 {
-            font-size: 3rem;
+        .card-coleccion:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 30px rgba(232,160,160,0.2);
+        }
+        .card-img {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+        }
+        .card-info {
+            padding: 24px;
+        }
+        .card-info h3 {
+            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .precio {
             color: #e8a0a0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .tagline {
-            color: #b8a0a0;
-            font-size: 1.2rem;
-            margin-top: 10px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255, 200, 200, 0.5);
-        }
-
-        .card h2 {
-            color: #e8a0a0;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .option-group {
-            margin-bottom: 25px;
-        }
-
-        .option-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 10px;
-            color: #7a6a6a;
-        }
-
-        select, button, input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 50px;
-            border: 1px solid #f0c0c0;
-            background: white;
-            font-size: 1rem;
-            color: #5a4a4a;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        input {
-            cursor: text;
-        }
-
-        select:hover, select:focus, input:focus {
-            border-color: #e8a0a0;
-            outline: none;
-            box-shadow: 0 0 5px rgba(232, 160, 160, 0.3);
-        }
-
-        .flores-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .flor-item {
-            background: white;
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .flor-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(232,160,160,0.2);
-        }
-
-        .flor-item.selected {
-            border-color: #e8a0a0;
-            background: #fff5f0;
-        }
-
-        .flor-emoji {
-            font-size: 2.5rem;
-        }
-
-        .extra-item {
-            display: inline-block;
-            margin: 8px;
-            padding: 10px 20px;
-            background: white;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #f0c0c0;
-        }
-
-        .extra-item.selected {
-            background: #e8a0a0;
-            color: white;
-            border-color: #e8a0a0;
-        }
-
-        button {
-            background: #e8a0a0;
-            color: white;
             font-weight: bold;
-            border: none;
-            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+        /* Badn de "clic para pedir" */
+        .pedir-ahora-badge {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-top: 8px;
         }
 
-        button:hover {
-            background: #d08080;
+        /* Personalizador */
+        .personalizador {
+            background: rgba(255, 248, 245, 0.9);
+            border-radius: 48px;
+            padding: 32px;
+        }
+        .personalizador-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .ramo-preview {
+            background: #fff6f2;
+            border-radius: 32px;
+            padding: 24px;
+            text-align: center;
+        }
+        .ramo-imagen img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 28px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        .grupo-opcion {
+            background: white;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .grupo-opcion label {
+            font-weight: 600;
+            color: #b57262;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .opciones-botones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .btn-opcion {
+            background: #f4e4df;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-opcion.active {
+            background: #e8a0a0;
+            color: white;
+        }
+        
+        /* Botones de acción del personalizador */
+        .botones-accion {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .btn-whatsapp:hover {
             transform: scale(0.98);
         }
-
-        .resumen {
-            background: #fff0f0;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
+        .btn-agendar {
+            background: #128C7E;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: 0.2s;
         }
-
-        .calendario {
+        .btn-agendar:hover {
+            transform: scale(0.98);
+        }
+        .selector-fecha {
             background: white;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
+            border-radius: 60px;
+            padding: 8px 16px;
+            border: 1px solid #f0bcb0;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 8px;
+            display: none;
         }
-
-        input[type="date"], input[type="email"], input[type="text"] {
-            margin: 10px 0;
+        .selector-fecha.visible {
+            display: block;
         }
 
         .btn-google {
             background: #4285f4;
-            margin-top: 10px;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
         }
-
         .btn-google:hover {
             background: #3367d6;
         }
 
-        .btn-correo {
-            background: #34a853;
+        /* Zona de usuario en header */
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 6px 16px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+        }
+        .membresia-plata { background: #cdc9c5; color: #2c2c2c; padding: 4px 12px; border-radius: 40px; }
+        .membresia-oro { background: #e6c384; color: #4a3a1f; padding: 4px 12px; border-radius: 40px; }
+        .membresia-vip { background: #c284b3; color: white; padding: 4px 12px; border-radius: 40px; }
+        .btn-login-header {
+            background: #e8a0a0;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.85rem;
         }
 
-        .btn-correo:hover {
-            background: #2d8e47;
+        /* Banner de beneficios por membresía */
+        .beneficio-banner {
+            background: #fff0e0;
+            border-left: 5px solid #e8a0a0;
+            padding: 12px 20px;
+            border-radius: 16px;
+            margin: 20px auto;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .personalizador-layout {
+                grid-template-columns: 1fr;
+            }
+            .menu-icon {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                background: white;
+                padding: 20px;
+                border-radius: 28px;
+                margin-top: 16px;
+            }
+            .nav-menu.active {
+                display: flex;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
         }
 
         footer {
+            background: #f3dfd8;
             text-align: center;
+            padding: 32px;
+            border-radius: 48px 48px 0 0;
             margin-top: 40px;
-            padding: 20px;
-            color: #b8a0a0;
         }
 
-        .recordatorio-form {
-            background: #fff8f0;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 15px;
+        .calendario-card {
+            background: white;
+            border-radius: 32px;
+            padding: 32px;
+            text-align: center;
+        }
+        .calendario-card input {
+            padding: 12px;
+            width: 80%;
+            border-radius: 60px;
+            border: 1px solid #f0bcb0;
+            margin: 8px;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>🌸 Florería Pétalos 🌸</h1>
-        <p class="tagline">Crea el ramo perfecto con los colores más dulces</p>
-    </header>
 
-    <!-- Personalización -->
-    <div class="card">
-        <h2>🌸 Personaliza tu ramo</h2>
-
-        <div class="option-group">
-            <label>📦 Tipo de papel</label>
-            <select id="papel">
-                <option value="Papel kraft reciclado|0">Papel kraft reciclado - $0</option>
-                <option value="Papel seda rosado|2">Papel seda rosado - $2</option>
-                <option value="Papel celofán transparente|1.5">Papel celofán transparente - $1.5</option>
-                <option value="Papel estampado flores|3">Papel estampado flores - $3</option>
-            </select>
+<header>
+    <div class="container header-flex">
+        <div class="logo">
+            <h1>🌸 PÉTALOS</h1>
+            <p>flores con alma</p>
         </div>
+        <div class="menu-icon" id="menuIcon">🍃</div>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#colecciones">Colecciones</a></li>
+            <li><a href="#personalizador">Tu ramo</a></li>
+            <li><a href="#calendario">Calendario</a></li>
+        </ul>
+        <!-- Zona de usuario dinámica -->
+        <div id="zonaUsuario"></div>
+    </div>
+</header>
 
-        <div class="option-group">
-            <label>🌹 Elige tus flores (puedes seleccionar varias)</label>
-            <div class="flores-grid" id="floresGrid">
-                <div class="flor-item" data-flor="Rosa roja" data-precio="3">
-                    <div class="flor-emoji">🌹</div>
-                    <div>Rosa roja</div>
-                    <small>$3</small>
-                </div>
-                <div class="flor-item" data-flor="Girasol" data-precio="2.5">
-                    <div class="flor-emoji">🌻</div>
-                    <div>Girasol</div>
-                    <small>$2.5</small>
-                </div>
-                <div class="flor-item" data-flor="Lirio blanco" data-precio="4">
-                    <div class="flor-emoji">⚜️</div>
-                    <div>Lirio blanco</div>
-                    <small>$4</small>
-                </div>
-                <div class="flor-item" data-flor="Margarita" data-precio="1.5">
-                    <div class="flor-emoji">🌼</div>
-                    <div>Margarita</div>
-                    <small>$1.5</small>
-                </div>
-                <div class="flor-item" data-flor="Lavanda" data-precio="2">
-                    <div class="flor-emoji">💜</div>
-                    <div>Lavanda</div>
-                    <small>$2</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="option-group">
-            <label>✨ Extras</label>
-            <div id="extras">
-                <span class="extra-item" data-extra="Tarjeta personalizada" data-precio="1">💌 Tarjeta ($1)</span>
-                <span class="extra-item" data-extra="Chocolate" data-precio="2">🍫 Chocolate ($2)</span>
-                <span class="extra-item" data-extra="Peluche pequeño" data-precio="5">🧸 Peluche ($5)</span>
-                <span class="extra-item" data-extra="Globos" data-precio="3">🎈 Globos ($3)</span>
-            </div>
-        </div>
-
-        <button id="calcularBtn">💐 Ver mi pedido</button>
-
-        <div class="resumen" id="resumen" style="display:none;">
-            <h3>✨ Tu ramo personalizado ✨</h3>
-            <div id="detallePedido"></div>
-            <p><strong>Total: $<span id="total">0</span></strong></p>
-        </div>
+<main>
+    <div class="container" style="text-align: center; padding: 40px 0;">
+        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; color:#c28474;">Flores que cuentan tu historia</h2>
+        <p style="font-size: 1.2rem;">Elige un sentimiento o personaliza tu ramo</p>
     </div>
 
-    <!-- Recordatorios con Google Calendar y Correo -->
-    <div class="card">
-        <h2>📅 Recordatorio de fechas importantes</h2>
-        <div class="calendario">
-            <p>📧 Recibe recordatorios por correo o agrégalos a tu Google Calendar</p>
-            
-            <div class="recordatorio-form">
-                <input type="text" id="nombreCliente" placeholder="Tu nombre" required>
-                <input type="email" id="emailCliente" placeholder="Tu correo electrónico" required>
-                <input type="date" id="fechaRecordatorio" required>
-                <input type="text" id="eventoPersonalizado" placeholder="¿Qué fecha especial es? (ej. Aniversario, Cumpleaños)">
-                
-                <button id="recordatorioCorreoBtn" class="btn-correo">📧 Enviar recordatorio a mi correo</button>
-                <button id="recordatorioGoogleBtn" class="btn-google">📅 Agregar a Google Calendar</button>
-            </div>
-            
-            <p style="font-size:0.8rem; margin-top:15px; color:#888;">
-                💡 Los recordatorios por correo se enviarán automáticamente<br>
-                📅 Al hacer clic en "Agregar a Calendar" se abrirá una ventana de Google
-            </p>
-        </div>
-    </div>
+    <!-- Banner de beneficios por membresía (se muestra si hay usuario) -->
+    <div id="bannerBeneficios" class="container" style="display: none;"></div>
 
-    <footer>
-        🌸 Hecho con amor para tus momentos especiales • 💌 ¿Dudas? Contáctanos: flores@petalos.com
-    </footer>
-</div>
+    <!-- COLECCIONES (SENTIMIENTOS) - AL HACER CLIC ENVÍAN WHATSAPP -->
+    <section id="colecciones">
+        <div class="container">
+            <h2 class="section-title">✨ Elige tu sentimiento ✨</h2>
+            <div class="colecciones-grid" id="coleccionesGrid"></div>
+            <p style="text-align: center; font-size: 0.8rem; margin-top: 16px;">🌸 Haz clic en cualquier tarjeta para pedir por WhatsApp</p>
+        </div>
+    </section>
+
+    <!-- PERSONALIZADOR CON 2 OPCIONES -->
+    <section id="personalizador">
+        <div class="container">
+            <h2 class="section-title">🎨 Arma tu ramo único</h2>
+            <div class="personalizador">
+                <div class="personalizador-layout">
+                    <div class="ramo-preview">
+                        <div class="ramo-imagen">
+                            <img id="ramoImg" src="https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg" alt="Ramo">
+                        </div>
+                        <p style="margin-top: 12px;">✨ Cambia las opciones y personaliza</p>
+                    </div>
+                    <div>
+                        <div class="grupo-opcion">
+                            <label>🌸 Flores principales</label>
+                            <div class="opciones-botones" id="floresOptions"></div>
+                        </div>
+                        <div class="grupo-opcion">
+                            <label>📦 Papel / Envoltura</label>
+                            <div class="opciones-botones" id="papelOptions"></div>
+                        </div>
+                        <div class="grupo-opcion">
+                            <label>🎁 Extras</label>
+                            <div class="opciones-botones" id="extrasOptions"></div>
+                        </div>
+                        
+                        <!-- BOTONES DE ACCIÓN -->
+                        <div class="botones-accion">
+                            <!-- Botón 1: Pedir ahora -->
+                            <button id="whatsappPedidoBtn" class="btn-whatsapp">
+                                💬 Pedir ahora por WhatsApp
+                            </button>
+                            
+                            <!-- Botón 2: Agendar entrega -->
+                            <button id="btnMostrarCalendario" class="btn-agendar">
+                                📅 Agendar entrega
+                            </button>
+                            
+                            <!-- Selector de fecha (aparece al hacer clic en Agendar) -->
+                            <div id="selectorFechaContainer" style="display: none;">
+                                <input type="date" id="fechaEntrega" class="selector-fecha visible" min="">
+                                <button id="whatsappAgendadoBtn" class="btn-whatsapp" style="background:#128C7E;">
+                                    📅 Enviar pedido agendado por WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALENDARIO + GOOGLE CALENDAR (para recordatorios) -->
+    <section id="calendario">
+        <div class="container">
+            <h2 class="section-title">📅 Fechas importantes</h2>
+            <div class="calendario-card">
+                <p>📆 Guarda tus fechas especiales en Google Calendar</p>
+                <input type="text" id="eventoNombre" placeholder="¿Qué evento? (Ej. Cumpleaños de mamá)">
+                <input type="date" id="eventoFecha">
+                <input type="text" id="eventoDescripcion" placeholder="Descripción (opcional)">
+                <button id="agregarGoogleCalendarBtn" class="btn-google">
+                    📅 Agregar a Google Calendar
+                </button>
+                <p style="font-size: 0.75rem; margin-top: 16px;">
+                    💡 Se abrirá Google Calendar para que guardes el evento
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>🌸 Florería Pétalos – Flores con historia</p>
+    <p>💌 ¿Necesitas ayuda? Escríbenos por WhatsApp</p>
+</footer>
 
 <script>
-    // Selección de flores
-    let floresSeleccionadas = [];
-    let extrasSeleccionados = [];
+    // ========== NÚMERO DE WHATSAPP ==========
+    const WHATSAPP_NUMERO = "5219871009151"; // Formato internacional sin +
 
-    // Manejo de flores
-    document.querySelectorAll('.flor-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const flor = item.dataset.flor;
-            const precio = parseFloat(item.dataset.precio);
-            const index = floresSeleccionadas.findIndex(f => f.nombre === flor);
-            
-            if(index === -1) {
-                floresSeleccionadas.push({nombre: flor, precio: precio});
-                item.classList.add('selected');
-            } else {
-                floresSeleccionadas.splice(index,1);
-                item.classList.remove('selected');
-            }
-        });
-    });
+    // ========== 1. GESTIÓN DE USUARIO (CONEXIÓN CON LOGIN) ==========
+    let usuarioActual = null;
 
-    // Manejo de extras
-    document.querySelectorAll('.extra-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const extra = item.dataset.extra;
-            const precio = parseFloat(item.dataset.precio);
-            const index = extrasSeleccionados.findIndex(e => e.nombre === extra);
-            
-            if(index === -1) {
-                extrasSeleccionados.push({nombre: extra, precio: precio});
-                item.classList.add('selected');
-            } else {
-                extrasSeleccionados.splice(index,1);
-                item.classList.remove('selected');
-            }
-        });
-    });
-
-    // Calcular y mostrar resumen
-    document.getElementById('calcularBtn').addEventListener('click', () => {
-        const papelSelect = document.getElementById('papel');
-        const papelInfo = papelSelect.value.split('|');
-        const papelTexto = papelInfo[0];
-        const papelPrecio = parseFloat(papelInfo[1]);
-        
-        let totalFlores = floresSeleccionadas.reduce((sum, f) => sum + f.precio, 0);
-        let totalExtras = extrasSeleccionados.reduce((sum, e) => sum + e.precio, 0);
-        let total = papelPrecio + totalFlores + totalExtras;
-        
-        let detalle = `<p><strong>Papel:</strong> ${papelTexto}</p>`;
-        detalle += `<p><strong>Flores:</strong> ${floresSeleccionadas.map(f=>f.nombre).join(', ') || 'Ninguna'}</p>`;
-        detalle += `<p><strong>Extras:</strong> ${extrasSeleccionados.map(e=>e.nombre).join(', ') || 'Ninguno'}</p>`;
-        
-        document.getElementById('detallePedido').innerHTML = detalle;
-        document.getElementById('total').innerText = total.toFixed(2);
-        document.getElementById('resumen').style.display = 'block';
-    });
-
-    // Función para generar el mensaje del pedido
-    function obtenerMensajePedido() {
-        const papelSelect = document.getElementById('papel');
-        const papelTexto = papelSelect.options[papelSelect.selectedIndex].text;
-        const flores = floresSeleccionadas.map(f=>f.nombre).join(', ') || 'Ninguna';
-        const extras = extrasSeleccionados.map(e=>e.nombre).join(', ') || 'Ninguno';
-        const total = document.getElementById('total').innerText;
-        
-        return `🌸 Pedido Florería Pétalos:\nPapel: ${papelTexto}\nFlores: ${flores}\nExtras: ${extras}\nTotal: $${total}`;
+    function cargarUsuarioDesdeLocalStorage() {
+        const usuarioGuardado = localStorage.getItem('usuarioFloreria');
+        if (usuarioGuardado) {
+            usuarioActual = JSON.parse(usuarioGuardado);
+            actualizarHeaderConUsuario();
+            mostrarBeneficiosMembresia();
+        } else {
+            actualizarHeaderSinUsuario();
+        }
     }
 
-    // 1. Recordatorio por CORREO (usa mailto: - el cliente envía el correo manualmente)
-    document.getElementById('recordatorioCorreoBtn').addEventListener('click', () => {
-        const nombre = document.getElementById('nombreCliente').value;
-        const email = document.getElementById('emailCliente').value;
-        const fecha = document.getElementById('fechaRecordatorio').value;
-        const evento = document.getElementById('eventoPersonalizado').value;
+    function actualizarHeaderConUsuario() {
+        const zonaUsuario = document.getElementById('zonaUsuario');
+        let claseMembresia = 'membresia-plata';
+        if (usuarioActual.membresia === 'Oro') claseMembresia = 'membresia-oro';
+        if (usuarioActual.membresia === 'VIP') claseMembresia = 'membresia-vip';
         
-        if(!nombre || !email || !fecha) {
-            alert('❌ Por favor, completa tu nombre, correo y la fecha del recordatorio');
+        zonaUsuario.innerHTML = `
+            <div class="user-badge">
+                <span>🌸 ${usuarioActual.nombre}</span>
+                <span class="${claseMembresia}">${usuarioActual.membresia}</span>
+                <button id="btnCerrarSesion" style="background:none; border:none; cursor:pointer; font-size:1.2rem;">🚪</button>
+            </div>
+        `;
+        
+        const btnCerrar = document.getElementById('btnCerrarSesion');
+        if (btnCerrar) {
+            btnCerrar.addEventListener('click', () => {
+                localStorage.removeItem('usuarioFloreria');
+                location.reload();
+            });
+        }
+    }
+
+    function actualizarHeaderSinUsuario() {
+        const zonaUsuario = document.getElementById('zonaUsuario');
+        zonaUsuario.innerHTML = `<a href="login.html" class="btn-login-header">🌸 Iniciar Sesión</a>`;
+    }
+
+    function mostrarBeneficiosMembresia() {
+        const bannerDiv = document.getElementById('bannerBeneficios');
+        if (!usuarioActual) {
+            bannerDiv.style.display = 'none';
             return;
         }
         
-        // Validar formato de email básico
-        if(!email.includes('@') || !email.includes('.')) {
-            alert('❌ Por favor, ingresa un correo electrónico válido');
-            return;
+        let mensaje = '';
+        if (usuarioActual.membresia === 'Plata') {
+            mensaje = '🥈 Beneficio Plata: Envíos gratis cada 2 meses';
+        } else if (usuarioActual.membresia === 'Oro') {
+            mensaje = '🥇 Beneficio Oro: 10% de descuento + envíos gratis';
+        } else if (usuarioActual.membresia === 'VIP') {
+            mensaje = '💎 Beneficio VIP: 15% descuento + envío exprés + ramo sorpresa en tu cumpleaños';
         }
         
-        const pedidoInfo = obtenerMensajePedido();
-        
-        // Crear el contenido del correo
-        const asunto = `📅 Recordatorio: ${evento || 'Fecha especial'} - Florería Pétalos`;
-        const cuerpo = `Hola ${nombre},\n\nTe recordamos tu fecha especial: ${fecha}\n${evento ? `Evento: ${evento}\n` : ''}\n\nInformación de tu pedido:\n${pedidoInfo}\n\n¡Gracias por confiar en Florería Pétalos! 🌸\n\nEste es un recordatorio automático. Para cualquier duda, responde a este correo.`;
-        
-        // Abrir cliente de correo predeterminado
-        window.location.href = `mailto:${email}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
-        
-        alert(`✅ Se abrirá tu correo para enviar el recordatorio a ${email}\n📅 Fecha: ${fecha}\n\nSolo presiona "Enviar" y listo.`);
+        bannerDiv.innerHTML = `<div class="beneficio-banner">✨ ${mensaje} ✨</div>`;
+        bannerDiv.style.display = 'block';
+    }
+
+    // ========== 2. COLECCIONES (CON WHATSAPP DIRECTO) ==========
+    const colecciones = [
+        { 
+            nombre: "Te extraño", 
+            descripcion: "Lavanda y girasoles para ese vacío", 
+            imagen: "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg", 
+            precio: "$350", 
+            emoji: "🌙",
+            mensajeWhatsApp: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial."
+        },
+        { 
+            nombre: "Te amo", 
+            descripcion: "Rosas rojas, pasión eterna", 
+            imagen: "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg", 
+            precio: "$520", 
+            emoji: "❤️",
+            mensajeWhatsApp: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor."
+        },
+        { 
+            nombre: "Perdón", 
+            descripcion: "Flores blancas, paz y reinicio", 
+            imagen: "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg", 
+            precio: "$390", 
+            emoji: "🤍",
+            mensajeWhatsApp: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón."
+        },
+        { 
+            nombre: "Cumpleaños", 
+            descripcion: "Alegría y colores vibrantes", 
+            imagen: "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg", 
+            precio: "$480", 
+            emoji: "🎂",
+            mensajeWhatsApp: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños."
+        },
+        { 
+            nombre: "Graduación", 
+            descripcion: "Éxito y nuevos comienzos", 
+            imagen: "https://images.pexels.com/photos/1024989/pexels-photo-1024989.jpeg", 
+            precio: "$600", 
+            emoji: "🎓",
+            mensajeWhatsApp: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado."
+        },
+        { 
+            nombre: "Flores aesthetic", 
+            descripcion: "Minimalismo y tendencia", 
+            imagen: "https://images.pexels.com/photos/983356/pexels-photo-983356.jpeg", 
+            precio: "$450", 
+            emoji: "🌸",
+            mensajeWhatsApp: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic."
+        }
+    ];
+
+    function cargarColecciones() {
+        const grid = document.getElementById('coleccionesGrid');
+        grid.innerHTML = '';
+        colecciones.forEach(col => {
+            const card = document.createElement('div');
+            card.className = 'card-coleccion';
+            card.innerHTML = `
+                <div class="card-img" style="background-image: url('${col.imagen}'); background-size: cover;"></div>
+                <div class="card-info">
+                    <h3>${col.emoji} ${col.nombre}</h3>
+                    <p>${col.descripcion}</p>
+                    <span class="precio">${col.precio}</span>
+                    <div class="pedir-ahora-badge">📱 Toca para pedir</div>
+                </div>
+            `;
+            // Al hacer clic en la tarjeta, enviar WhatsApp con el mensaje predefinido
+            card.addEventListener('click', () => {
+                let membresiaTexto = '';
+                if (usuarioActual) {
+                    membresiaTexto = `%0A👤 Membresía: ${usuarioActual.membresia}`;
+                }
+                const mensajeFinal = col.mensajeWhatsApp + membresiaTexto;
+                const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensajeFinal}`;
+                window.open(url, '_blank');
+            });
+            grid.appendChild(card);
+        });
+    }
+
+    // ========== 3. PERSONALIZADOR ==========
+    const floresMap = {
+        "Rosa roja": "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg",
+        "Girasol": "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg",
+        "Lavanda": "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg",
+        "Margarita": "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg"
+    };
+
+    let seleccionFlor = "Rosa roja";
+    let seleccionPapel = "Kraft";
+    let seleccionExtra = "Ninguno";
+    let fechaAgendada = "";
+
+    function actualizarImagenRamo() {
+        const imgUrl = floresMap[seleccionFlor] || floresMap["Rosa roja"];
+        document.getElementById('ramoImg').src = imgUrl;
+    }
+
+    function cargarBotonesPersonalizador() {
+        const floresDiv = document.getElementById('floresOptions');
+        const papelDiv = document.getElementById('papelOptions');
+        const extrasDiv = document.getElementById('extrasOptions');
+
+        Object.keys(floresMap).forEach(flor => {
+            const btn = document.createElement('button');
+            btn.innerText = flor;
+            btn.classList.add('btn-opcion');
+            if (flor === seleccionFlor) btn.classList.add('active');
+            btn.onclick = () => {
+                seleccionFlor = flor;
+                document.querySelectorAll('#floresOptions .btn-opcion').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                actualizarImagenRamo();
+            };
+            floresDiv.appendChild(btn);
+        });
+
+        const papeles = ["Kraft", "Rosado pastel", "Celofán transparente"];
+        papeles.forEach(papel => {
+            const btn = document.createElement('button');
+            btn.innerText = papel;
+            btn.classList.add('btn-opcion');
+            if (papel === seleccionPapel) btn.classList.add('active');
+            btn.onclick = () => {
+                seleccionPapel = papel;
+                document.querySelectorAll('#papelOptions .btn-opcion').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            papelDiv.appendChild(btn);
+        });
+
+        const extras = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
+        extras.forEach(extra => {
+            const btn = document.createElement('button');
+            btn.innerText = extra;
+            btn.classList.add('btn-opcion');
+            if (extra === seleccionExtra) btn.classList.add('active');
+            btn.onclick = () => {
+                seleccionExtra = extra;
+                document.querySelectorAll('#extrasOptions .btn-opcion').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            extrasDiv.appendChild(btn);
+        });
+    }
+
+    // Función para generar mensaje base del pedido personalizado
+    function generarMensajePedido(conMembresia = true) {
+        let membresiaTexto = '';
+        if (conMembresia && usuarioActual) {
+            membresiaTexto = `%0A👤 Membresía: ${usuarioActual.membresia}`;
+        }
+        return `🌸 *PEDIDO PERSONALIZADO - FLORERÍA PÉTALOS* 🌸%0A%0A` +
+               `✨ *Flores:* ${seleccionFlor}%0A` +
+               `📦 *Papel:* ${seleccionPapel}%0A` +
+               `🎁 *Extra:* ${seleccionExtra}%0A` +
+               `${membresiaTexto}`;
+    }
+
+    // ========== 4. BOTÓN 1: PEDIR AHORA (personalizador) ==========
+    document.getElementById('whatsappPedidoBtn').addEventListener('click', () => {
+        const mensaje = generarMensajePedido(true) + `%0A%0A💐 ¡Hola! Quiero encargar este ramo personalizado para AHORA. ¿Cómo puedo pagar?`;
+        const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`;
+        window.open(url, '_blank');
     });
 
-    // 2. Agregar a GOOGLE CALENDAR
-    document.getElementById('recordatorioGoogleBtn').addEventListener('click', () => {
-        const nombre = document.getElementById('nombreCliente').value;
-        const fecha = document.getElementById('fechaRecordatorio').value;
-        const evento = document.getElementById('eventoPersonalizado').value;
+    // ========== 5. BOTÓN 2: MOSTRAR CALENDARIO PARA AGENDAR ==========
+    const selectorContainer = document.getElementById('selectorFechaContainer');
+    const fechaInput = document.getElementById('fechaEntrega');
+    
+    // Establecer fecha mínima (hoy)
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
+    fechaInput.min = `${yyyy}-${mm}-${dd}`;
+
+    document.getElementById('btnMostrarCalendario').addEventListener('click', () => {
+        if (selectorContainer.style.display === 'none' || selectorContainer.style.display === '') {
+            selectorContainer.style.display = 'block';
+            selectorContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            selectorContainer.style.display = 'none';
+        }
+    });
+
+    // ========== 6. BOTÓN: ENVIAR PEDIDO AGENDADO ==========
+    document.getElementById('whatsappAgendadoBtn').addEventListener('click', () => {
+        fechaAgendada = fechaInput.value;
         
-        if(!nombre || !fecha) {
-            alert('❌ Por favor, completa tu nombre y la fecha del recordatorio');
+        if (!fechaAgendada) {
+            alert("❌ Por favor, selecciona una fecha de entrega");
             return;
         }
         
-        if(!evento) {
-            alert('❌ Por favor, escribe qué fecha especial es (ej. Cumpleaños, Aniversario)');
+        const fechaObj = new Date(fechaAgendada);
+        const fechaFormateada = fechaObj.toLocaleDateString('es-MX');
+        
+        const mensajeBase = generarMensajePedido(true);
+        const mensaje = mensajeBase + `%0A📅 *Fecha de entrega agendada:* ${fechaFormateada}%0A%0A💐 ¡Hola! Quiero agendar este ramo personalizado para el día ${fechaFormateada}. ¿Cómo puedo pagar?`;
+        
+        const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`;
+        window.open(url, '_blank');
+        
+        selectorContainer.style.display = 'none';
+        fechaInput.value = '';
+    });
+
+    // ========== 7. GOOGLE CALENDAR ==========
+    document.getElementById('agregarGoogleCalendarBtn').addEventListener('click', () => {
+        const evento = document.getElementById('eventoNombre').value;
+        const fecha = document.getElementById('eventoFecha').value;
+        const descripcion = document.getElementById('eventoDescripcion').value;
+
+        if (!evento || !fecha) {
+            alert("❌ Por favor, escribe el nombre del evento y selecciona una fecha");
             return;
         }
-        
-        // Convertir fecha a formato YYYYMMDDTHHMMSSZ (todo el día)
+
         const fechaObj = new Date(fecha);
         const fechaInicio = fechaObj.toISOString().replace(/[-:]/g, '').split('.')[0];
-        const fechaFin = new Date(fechaObj.getTime() + 24*60*60*1000).toISOString().replace(/[-:]/g, '').split('.')[0];
-        
+        const fechaFin = new Date(fechaObj.getTime() + 24 * 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0];
+
         const titulo = `🌸 ${evento} - Florería Pétalos`;
-        const descripcion = `Recordatorio para ${nombre}\n\n${obtenerMensajePedido()}\n\nNo olvides celebrar este día especial. ¡Gracias por preferir Florería Pétalos!`;
-        
-        // Crear URL de Google Calendar
-        const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${fechaInicio}/${fechaFin}&details=${encodeURIComponent(descripcion)}&sf=true&output=xml`;
-        
-        // Abrir en nueva pestaña
+        const detalle = descripcion 
+            ? `Recordatorio: ${descripcion}%0A%0A🌸 ¿Necesitas flores para este día? Contáctanos al 9871009151`
+            : `🌸 Fecha especial guardada desde Florería Pétalos.%0A%0A¿Necesitas un ramo? Escríbenos.`;
+
+        const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${fechaInicio}/${fechaFin}&details=${encodeURIComponent(detalle)}&sf=true&output=xml`;
+
         window.open(googleCalendarUrl, '_blank');
         
-        alert(`✅ Se abrirá Google Calendar para que agregues el evento:\n📅 ${evento}\n📆 Fecha: ${fecha}\n\nSolo presiona "Guardar" y el evento quedará en tu calendario.`);
+        alert(`✅ Se abrirá Google Calendar para guardar:\n📅 ${evento}\n📆 ${fecha}\n\nSolo presiona "Guardar" y el evento quedará en tu calendario.`);
+        
+        document.getElementById('eventoNombre').value = '';
+        document.getElementById('eventoFecha').value = '';
+        document.getElementById('eventoDescripcion').value = '';
     });
+
+    // ========== 8. MENÚ HAMBURGUESA ==========
+    const menuIcon = document.getElementById('menuIcon');
+    const navMenu = document.getElementById('navMenu');
+    menuIcon.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+    });
+
+    // ========== 9. INICIALIZAR TODO ==========
+    cargarUsuarioDesdeLocalStorage();
+    cargarColecciones();
+    cargarBotonesPersonalizador();
+    actualizarImagenRamo();
 </script>
 </body>
 </html>
