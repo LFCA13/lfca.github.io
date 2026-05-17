@@ -111,7 +111,7 @@
             box-shadow: 0 16px 30px rgba(232,160,160,0.2);
         }
         .card-img {
-            height: 250px;
+            height: 300px;
             background-size: cover;
             background-position: center;
         }
@@ -121,6 +121,11 @@
         .card-info h3 {
             font-size: 1.5rem;
             font-family: 'Playfair Display', serif;
+        }
+        .card-info p {
+            font-size: 0.85rem;
+            color: #7a6159;
+            margin: 8px 0;
         }
         .precio {
             color: #e8a0a0;
@@ -302,6 +307,9 @@
             .section-title {
                 font-size: 1.8rem;
             }
+            .card-img {
+                height: 220px;
+            }
         }
 
         footer {
@@ -354,7 +362,7 @@
 
     <div id="bannerBeneficios" class="container" style="display: none;"></div>
 
-    <!-- COLECCIONES -->
+    <!-- COLECCIONES (SENTIMIENTOS) CON IMÁGENES IA -->
     <section id="colecciones">
         <div class="container">
             <h2 class="section-title">✨ Elige tu sentimiento ✨</h2>
@@ -450,12 +458,54 @@
     const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
     
     const SENTIMIENTOS_ORIGINALES = [
-        { nombre: "Te extraño", emoji: "🌙", mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial." },
-        { nombre: "Te amo", emoji: "❤️", mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor." },
-        { nombre: "Perdón", emoji: "🤍", mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón." },
-        { nombre: "Cumpleaños", emoji: "🎂", mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños." },
-        { nombre: "Graduación", emoji: "🎓", mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado." },
-        { nombre: "Flores aesthetic", emoji: "🌸", mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic." }
+        { 
+            nombre: "Te extraño", 
+            emoji: "🌙", 
+            descripcion: "Lavanda y girasoles para ese vacío",
+            precio: "$350",
+            mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial.",
+            imagen: "te_extrano.png"
+        },
+        { 
+            nombre: "Te amo", 
+            emoji: "❤️", 
+            descripcion: "Rosas rojas, pasión eterna",
+            precio: "$520",
+            mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor.",
+            imagen: "te_amo.png"
+        },
+        { 
+            nombre: "Perdón", 
+            emoji: "🤍", 
+            descripcion: "Flores blancas, paz y reinicio",
+            precio: "$390",
+            mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón.",
+            imagen: "perdon.png"
+        },
+        { 
+            nombre: "Cumpleaños", 
+            emoji: "🎂", 
+            descripcion: "Alegría y colores vibrantes",
+            precio: "$480",
+            mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños.",
+            imagen: "cumpleanos.png"
+        },
+        { 
+            nombre: "Graduación", 
+            emoji: "🎓", 
+            descripcion: "Éxito y nuevos comienzos",
+            precio: "$600",
+            mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado.",
+            imagen: "graduacion.png"
+        },
+        { 
+            nombre: "Flores aesthetic", 
+            emoji: "🌸", 
+            descripcion: "Minimalismo y tendencia",
+            precio: "$450",
+            mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic.",
+            imagen: "aesthetic.png"
+        }
     ];
 
     // ========== FUNCIONES PARA OBTENER DATOS DINÁMICOS ==========
@@ -480,13 +530,7 @@
     }
 
     // ========== FUNCIÓN PARA OBTENER IMAGEN SEGÚN FLOR Y PAPEL ==========
-    // Los nombres de archivo coinciden EXACTAMENTE con lo que subiste:
-    // girasol_kraft.png, girasol_pastel.png, girasol_transparente.png
-    // rosa_kraft.png, rosa_pastel.png, rosa_transparente.png
-    // lavanda_kraft.png, lavanda_pastel.png, lavanda_transparente.png
-    // margarita_kraft.png, margarita_pastel.png, margarita_transparente.png
     function obtenerImagenRamo(flor, papel) {
-        // Mapeo de nombres a los nombres de archivo
         const florMap = {
             "Rosa roja": "rosa",
             "Girasol": "girasol",
@@ -503,7 +547,6 @@
         const florKey = florMap[flor] || "rosa";
         const papelKey = papelMap[papel] || "kraft";
         
-        // Ruta directa a la imagen (están en la raíz del repositorio)
         return `${florKey}_${papelKey}.png`;
     }
 
@@ -569,30 +612,22 @@
         bannerDiv.style.display = 'block';
     }
 
-    // ========== CARGAR COLECCIONES ==========
+    // ========== CARGAR COLECCIONES (SENTIMIENTOS) ==========
     function cargarColecciones() {
         const sentimientos = getSentimientos();
         const grid = document.getElementById('coleccionesGrid');
         grid.innerHTML = '';
         
-        const imagenesSentimientos = {
-            "Te extraño": "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg",
-            "Te amo": "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg",
-            "Perdón": "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg",
-            "Cumpleaños": "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg",
-            "Graduación": "https://images.pexels.com/photos/1024989/pexels-photo-1024989.jpeg",
-            "Flores aesthetic": "https://images.pexels.com/photos/983356/pexels-photo-983356.jpeg"
-        };
-        
         sentimientos.forEach(sent => {
             const card = document.createElement('div');
             card.className = 'card-coleccion';
-            const imagenUrl = imagenesSentimientos[sent.nombre] || "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg";
             
             card.innerHTML = `
-                <div class="card-img" style="background-image: url('${imagenUrl}'); background-size: cover;"></div>
+                <div class="card-img" style="background-image: url('${sent.imagen}'); background-size: cover; background-position: center;"></div>
                 <div class="card-info">
                     <h3>${sent.emoji} ${sent.nombre}</h3>
+                    <p>${sent.descripcion}</p>
+                    <span class="precio">${sent.precio}</span>
                     <div class="pedir-ahora-badge">📱 Toca para pedir</div>
                 </div>
             `;
