@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin | Florería Pétalos</title>
+    <title>Panel Admin | Promesa en pétalos</title>
     <style>
         * {
             margin: 0;
@@ -17,17 +17,22 @@
             padding: 30px;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
             color: #d48c7c;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            color: #b8958a;
+            margin-bottom: 30px;
         }
 
         .admin-card {
@@ -101,6 +106,8 @@
             margin-top: 20px;
             border-top: 1px solid #f0bcb0;
             padding-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         .item {
@@ -131,12 +138,20 @@
             gap: 20px;
         }
 
-        .mensaje-ejemplo {
-            background: #e8f5e9;
-            padding: 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            margin-top: 8px;
+        .sentimiento-editor {
+            background: #fffaf5;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid #f0bcb0;
+        }
+
+        .sentimiento-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
         }
 
         .volver-link {
@@ -146,17 +161,22 @@
             text-decoration: none;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 900px) {
             .grid-2 {
                 grid-template-columns: 1fr;
             }
+        }
+
+        .precio-cop {
+            color: #e8a0a0;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🌸 Panel de Administrador</h1>
-    <p style="margin-bottom: 20px;">⚠️ Los cambios se guardan en TU navegador (solo los ves tú). Otros usuarios ven la versión original.</p>
+    <h1>🌺 Promesa en pétalos</h1>
+    <p class="subtitulo">Panel de administración - Precios en Pesos Colombianos (COP)</p>
 
     <!-- SECCIÓN: FLORES -->
     <div class="admin-card">
@@ -167,10 +187,6 @@
                 <div class="form-group">
                     <label>Nombre de la flor</label>
                     <input type="text" id="nuevaFlorNombre" placeholder="Ej. Tulipán">
-                </div>
-                <div class="form-group">
-                    <label>URL de imagen (opcional, usa una de internet)</label>
-                    <input type="text" id="nuevaFlorImagen" placeholder="https://...">
                 </div>
                 <button id="btnAgregarFlor">➕ Agregar Flor</button>
             </div>
@@ -207,8 +223,8 @@
             <div>
                 <h3>Agregar nuevo extra</h3>
                 <div class="form-group">
-                    <label>Nombre del extra (ej. Chocolates + $30)</label>
-                    <input type="text" id="nuevoExtraNombre" placeholder="Ej. Chocolates + $30">
+                    <label>Nombre del extra (ej. Chocolates + $5,000 COP)</label>
+                    <input type="text" id="nuevoExtraNombre" placeholder="Ej. Chocolates + $5,000 COP">
                 </div>
                 <button id="btnAgregarExtra">➕ Agregar Extra</button>
             </div>
@@ -219,17 +235,17 @@
         </div>
     </div>
 
-    <!-- SECCIÓN: EDITAR MENSAJES DE SENTIMIENTOS -->
+    <!-- SECCIÓN: EDITAR SENTIMIENTOS (con precios en COP) -->
     <div class="admin-card">
-        <h2>💖 Editar mensajes de Sentimientos (WhatsApp)</h2>
-        <p>Los mensajes que se envían al hacer clic en cada tarjeta de sentimiento.</p>
+        <h2>💖 Editar Sentimientos (Precios en COP)</h2>
+        <p>Edita el nombre, descripción, precio, mensaje de WhatsApp e imagen de cada sentimiento.</p>
         <div id="listaSentimientos"></div>
         <button id="btnGuardarSentimientos" class="btn-exito">💾 Guardar todos los cambios de sentimientos</button>
     </div>
 
     <!-- BOTONES GLOBALES -->
     <div style="margin-top: 20px;">
-        <button id="btnResetearTodo" class="btn-peligro">⚠️ Resetear todo a valores originales</button>
+        <button id="btnResetearTodo" class="btn-peligro">⚠️ Resetear todo a valores originales (COP)</button>
         <a href="index.html" class="volver-link">← Volver a la tienda</a>
     </div>
 </div>
@@ -241,18 +257,60 @@
     const STORAGE_EXTRAS = "admin_extras_personalizados";
     const STORAGE_SENTIMIENTOS = "admin_sentimientos_personalizados";
 
-    // ========== VALORES ORIGINALES ==========
+    // ========== VALORES ORIGINALES (CON PRECIOS EN COP) ==========
     const FLORES_ORIGINALES = ["Rosa roja", "Girasol", "Lavanda", "Margarita"];
     const PAPELES_ORIGINALES = ["Kraft", "Rosado pastel", "Celofán transparente"];
-    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
+    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $5,000 COP", "Tarjeta + $3,000 COP"];
     
     const SENTIMIENTOS_ORIGINALES = [
-        { nombre: "Te extraño", emoji: "🌙", mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial." },
-        { nombre: "Te amo", emoji: "❤️", mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor." },
-        { nombre: "Perdón", emoji: "🤍", mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón." },
-        { nombre: "Cumpleaños", emoji: "🎂", mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños." },
-        { nombre: "Graduación", emoji: "🎓", mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado." },
-        { nombre: "Flores aesthetic", emoji: "🌸", mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic." }
+        { 
+            nombre: "Te extraño", 
+            emoji: "🌙", 
+            descripcion: "Lavanda y girasoles para ese vacío",
+            precio: "$70,000 COP",
+            mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $70,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo especial.",
+            imagen: "te_extrano.png"
+        },
+        { 
+            nombre: "Te amo", 
+            emoji: "❤️", 
+            descripcion: "Rosas rojas, pasión eterna",
+            precio: "$105,000 COP",
+            mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $105,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor.",
+            imagen: "te_amo.png"
+        },
+        { 
+            nombre: "Perdón", 
+            emoji: "🤍", 
+            descripcion: "Flores blancas, paz y reinicio",
+            precio: "$78,000 COP",
+            mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $78,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón.",
+            imagen: "perdon.png"
+        },
+        { 
+            nombre: "Cumpleaños", 
+            emoji: "🎂", 
+            descripcion: "Alegría y colores vibrantes",
+            precio: "$95,000 COP",
+            mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $95,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños.",
+            imagen: "cumpleanos.png"
+        },
+        { 
+            nombre: "Graduación", 
+            emoji: "🎓", 
+            descripcion: "Éxito y nuevos comienzos",
+            precio: "$120,000 COP",
+            mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $120,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado.",
+            imagen: "graduacion.png"
+        },
+        { 
+            nombre: "Flores aesthetic", 
+            emoji: "🌸", 
+            descripcion: "Minimalismo y tendencia",
+            precio: "$90,000 COP",
+            mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $90,000 COP%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic.",
+            imagen: "aesthetic.png"
+        }
     ];
 
     // ========== FUNCIONES PARA CARGAR/GUARDAR ==========
@@ -354,16 +412,35 @@
         container.innerHTML = '';
         sentimientos.forEach((sent, idx) => {
             const div = document.createElement('div');
-            div.className = 'item';
-            div.style.flexDirection = 'column';
-            div.style.alignItems = 'stretch';
+            div.className = 'sentimiento-editor';
             div.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-                    <strong>${sent.emoji} ${sent.nombre}</strong>
-                    <button class="btn-peligro" onclick="eliminarSentimiento(${idx})" style="font-size:0.7rem;">🗑️ Restaurar original</button>
+                <div class="sentimiento-header">
+                    <strong style="font-size:1.2rem;">${sent.emoji} ${sent.nombre}</strong>
+                    <button class="btn-peligro" onclick="eliminarSentimiento(${idx})" style="font-size:0.7rem; padding:4px 12px;">🗑️ Restaurar original</button>
                 </div>
-                <textarea id="msgSent_${idx}" rows="3" style="margin-top: 8px;">${sent.mensaje}</textarea>
-                <div class="mensaje-ejemplo">💡 Este mensaje se enviará por WhatsApp al hacer clic en "${sent.nombre}"</div>
+                <div class="grid-2" style="margin-top: 10px;">
+                    <div>
+                        <label>📝 Nombre</label>
+                        <input type="text" id="nombreSent_${idx}" value="${sent.nombre.replace(/"/g, '&quot;')}">
+                        
+                        <label>😊 Emoji</label>
+                        <input type="text" id="emojiSent_${idx}" value="${sent.emoji}">
+                        
+                        <label>📋 Descripción</label>
+                        <input type="text" id="descSent_${idx}" value="${sent.descripcion.replace(/"/g, '&quot;')}">
+                        
+                        <label>💰 Precio (COP)</label>
+                        <input type="text" id="precioSent_${idx}" value="${sent.precio}" placeholder="Ej. $70,000 COP">
+                    </div>
+                    <div>
+                        <label>🖼️ Nombre de imagen</label>
+                        <input type="text" id="imagenSent_${idx}" value="${sent.imagen}" placeholder="te_extrano.png">
+                        
+                        <label>📱 Mensaje WhatsApp</label>
+                        <textarea id="msgSent_${idx}" rows="4">${sent.mensaje}</textarea>
+                    </div>
+                </div>
+                <div class="precio-cop" style="margin-top: 8px; font-size:0.8rem;">💡 El precio se mostrará en la tarjeta y en el mensaje de WhatsApp</div>
             `;
             container.appendChild(div);
         });
@@ -425,18 +502,29 @@
     document.getElementById('btnGuardarSentimientos').addEventListener('click', () => {
         const sentimientos = getSentimientos();
         const nuevosSentimientos = [...sentimientos];
+        
         sentimientos.forEach((_, idx) => {
-            const textarea = document.getElementById(`msgSent_${idx}`);
-            if (textarea) {
-                nuevosSentimientos[idx].mensaje = textarea.value;
-            }
+            const nombreInput = document.getElementById(`nombreSent_${idx}`);
+            const emojiInput = document.getElementById(`emojiSent_${idx}`);
+            const descInput = document.getElementById(`descSent_${idx}`);
+            const precioInput = document.getElementById(`precioSent_${idx}`);
+            const imagenInput = document.getElementById(`imagenSent_${idx}`);
+            const msgTextarea = document.getElementById(`msgSent_${idx}`);
+            
+            if (nombreInput) nuevosSentimientos[idx].nombre = nombreInput.value;
+            if (emojiInput) nuevosSentimientos[idx].emoji = emojiInput.value;
+            if (descInput) nuevosSentimientos[idx].descripcion = descInput.value;
+            if (precioInput) nuevosSentimientos[idx].precio = precioInput.value;
+            if (imagenInput) nuevosSentimientos[idx].imagen = imagenInput.value;
+            if (msgTextarea) nuevosSentimientos[idx].mensaje = msgTextarea.value;
         });
+        
         guardarSentimientos(nuevosSentimientos);
-        alert("✅ Mensajes de sentimientos guardados correctamente");
+        alert("✅ Sentimientos guardados correctamente con precios en COP");
     });
 
     document.getElementById('btnResetearTodo').addEventListener('click', () => {
-        if (confirm("⚠️ ¿Estás segura/o? Esto borrará todas tus flores, papeles, extras y mensajes personalizados. Se restaurarán los valores originales.")) {
+        if (confirm("⚠️ ¿Estás seguro? Esto borrará todas tus flores, papeles, extras y mensajes personalizados. Se restaurarán los valores originales con precios en COP.")) {
             localStorage.removeItem(STORAGE_FLORES);
             localStorage.removeItem(STORAGE_PAPELES);
             localStorage.removeItem(STORAGE_EXTRAS);
@@ -445,7 +533,7 @@
             renderizarPapeles();
             renderizarExtras();
             renderizarSentimientos();
-            alert("✅ Todo ha sido restaurado a los valores originales");
+            alert("✅ Todo ha sido restaurado a los valores originales (precios en COP)");
         }
     });
 
