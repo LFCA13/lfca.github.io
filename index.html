@@ -96,7 +96,7 @@
             margin: 12px auto 0;
         }
 
-        /* Colecciones - las tarjetas ahora tienen cursor pointer */
+        /* Colecciones */
         .colecciones-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -131,7 +131,6 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
-        /* Badn de "clic para pedir" */
         .pedir-ahora-badge {
             display: inline-block;
             background: #25D366;
@@ -195,7 +194,6 @@
             color: white;
         }
         
-        /* Botones de acción del personalizador */
         .botones-accion {
             display: flex;
             flex-direction: column;
@@ -268,7 +266,7 @@
             background: #3367d6;
         }
 
-        /* Zona de usuario en header */
+        /* Zona de usuario */
         .user-badge {
             display: flex;
             align-items: center;
@@ -292,7 +290,6 @@
             font-size: 0.85rem;
         }
 
-        /* Banner de beneficios por membresía */
         .beneficio-banner {
             background: #fff0e0;
             border-left: 5px solid #e8a0a0;
@@ -303,7 +300,6 @@
             max-width: 600px;
         }
 
-        /* Responsive */
         @media (max-width: 900px) {
             .personalizador-layout {
                 grid-template-columns: 1fr;
@@ -366,7 +362,6 @@
             <li><a href="#personalizador">Tu ramo</a></li>
             <li><a href="#calendario">Calendario</a></li>
         </ul>
-        <!-- Zona de usuario dinámica -->
         <div id="zonaUsuario"></div>
     </div>
 </header>
@@ -377,10 +372,9 @@
         <p style="font-size: 1.2rem;">Elige un sentimiento o personaliza tu ramo</p>
     </div>
 
-    <!-- Banner de beneficios por membresía (se muestra si hay usuario) -->
     <div id="bannerBeneficios" class="container" style="display: none;"></div>
 
-    <!-- COLECCIONES (SENTIMIENTOS) - AL HACER CLIC ENVÍAN WHATSAPP -->
+    <!-- COLECCIONES (SENTIMIENTOS) -->
     <section id="colecciones">
         <div class="container">
             <h2 class="section-title">✨ Elige tu sentimiento ✨</h2>
@@ -389,7 +383,7 @@
         </div>
     </section>
 
-    <!-- PERSONALIZADOR CON 2 OPCIONES -->
+    <!-- PERSONALIZADOR -->
     <section id="personalizador">
         <div class="container">
             <h2 class="section-title">🎨 Arma tu ramo único</h2>
@@ -415,19 +409,13 @@
                             <div class="opciones-botones" id="extrasOptions"></div>
                         </div>
                         
-                        <!-- BOTONES DE ACCIÓN -->
                         <div class="botones-accion">
-                            <!-- Botón 1: Pedir ahora -->
                             <button id="whatsappPedidoBtn" class="btn-whatsapp">
                                 💬 Pedir ahora por WhatsApp
                             </button>
-                            
-                            <!-- Botón 2: Agendar entrega -->
                             <button id="btnMostrarCalendario" class="btn-agendar">
                                 📅 Agendar entrega
                             </button>
-                            
-                            <!-- Selector de fecha (aparece al hacer clic en Agendar) -->
                             <div id="selectorFechaContainer" style="display: none;">
                                 <input type="date" id="fechaEntrega" class="selector-fecha visible" min="">
                                 <button id="whatsappAgendadoBtn" class="btn-whatsapp" style="background:#128C7E;">
@@ -441,7 +429,7 @@
         </div>
     </section>
 
-    <!-- CALENDARIO + GOOGLE CALENDAR (para recordatorios) -->
+    <!-- CALENDARIO -->
     <section id="calendario">
         <div class="container">
             <h2 class="section-title">📅 Fechas importantes</h2>
@@ -468,9 +456,58 @@
 
 <script>
     // ========== NÚMERO DE WHATSAPP ==========
-    const WHATSAPP_NUMERO = "5219871009151"; // Formato internacional sin +
+    const WHATSAPP_NUMERO = "5219871009151";
 
-    // ========== 1. GESTIÓN DE USUARIO (CONEXIÓN CON LOGIN) ==========
+    // ========== CLAVES LOCALSTORAGE ==========
+    const STORAGE_FLORES = "admin_flores_personalizadas";
+    const STORAGE_PAPELES = "admin_papeles_personalizados";
+    const STORAGE_EXTRAS = "admin_extras_personalizados";
+    const STORAGE_SENTIMIENTOS = "admin_sentimientos_personalizados";
+
+    // ========== VALORES ORIGINALES ==========
+    const FLORES_ORIGINALES = ["Rosa roja", "Girasol", "Lavanda", "Margarita"];
+    const PAPELES_ORIGINALES = ["Kraft", "Rosado pastel", "Celofán transparente"];
+    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
+    
+    const SENTIMIENTOS_ORIGINALES = [
+        { nombre: "Te extraño", emoji: "🌙", mensaje: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial." },
+        { nombre: "Te amo", emoji: "❤️", mensaje: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor." },
+        { nombre: "Perdón", emoji: "🤍", mensaje: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón." },
+        { nombre: "Cumpleaños", emoji: "🎂", mensaje: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños." },
+        { nombre: "Graduación", emoji: "🎓", mensaje: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado." },
+        { nombre: "Flores aesthetic", emoji: "🌸", mensaje: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic." }
+    ];
+
+    // ========== FUNCIONES PARA OBTENER DATOS DINÁMICOS ==========
+    function getFlores() {
+        const guardadas = localStorage.getItem(STORAGE_FLORES);
+        return guardadas ? JSON.parse(guardadas) : [...FLORES_ORIGINALES];
+    }
+
+    function getPapeles() {
+        const guardadas = localStorage.getItem(STORAGE_PAPELES);
+        return guardadas ? JSON.parse(guardadas) : [...PAPELES_ORIGINALES];
+    }
+
+    function getExtras() {
+        const guardadas = localStorage.getItem(STORAGE_EXTRAS);
+        return guardadas ? JSON.parse(guardadas) : [...EXTRAS_ORIGINALES];
+    }
+
+    function getSentimientos() {
+        const guardados = localStorage.getItem(STORAGE_SENTIMIENTOS);
+        return guardados ? JSON.parse(guardados) : JSON.parse(JSON.stringify(SENTIMIENTOS_ORIGINALES));
+    }
+
+    // ========== IMÁGENES DE FLORES (para el personalizador) ==========
+    const floresImagenes = {
+        "Rosa roja": "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg",
+        "Girasol": "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg",
+        "Lavanda": "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg",
+        "Margarita": "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg"
+    };
+
+    // ========== GESTIÓN DE USUARIO ==========
     let usuarioActual = null;
 
     function cargarUsuarioDesdeLocalStorage() {
@@ -532,80 +569,37 @@
         bannerDiv.style.display = 'block';
     }
 
-    // ========== 2. COLECCIONES (CON WHATSAPP DIRECTO) ==========
-    const colecciones = [
-        { 
-            nombre: "Te extraño", 
-            descripcion: "Lavanda y girasoles para ese vacío", 
-            imagen: "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg", 
-            precio: "$350", 
-            emoji: "🌙",
-            mensajeWhatsApp: "🌸 *RAMO: TE EXTRAÑO* 🌸%0A%0A✨ Flores: Lavanda y Girasoles%0A📦 Papel: Kraft elegante%0A🎁 Incluye: Tarjeta con mensaje 'Te extraño'%0A💰 Precio: $350 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo especial."
-        },
-        { 
-            nombre: "Te amo", 
-            descripcion: "Rosas rojas, pasión eterna", 
-            imagen: "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg", 
-            precio: "$520", 
-            emoji: "❤️",
-            mensajeWhatsApp: "🌸 *RAMO: TE AMO* 🌸%0A%0A✨ Flores: Rosas rojas (12 piezas)%0A📦 Papel: Seda rojo%0A🎁 Incluye: Tarjeta romántica + chocolate%0A💰 Precio: $520 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para mi amor."
-        },
-        { 
-            nombre: "Perdón", 
-            descripcion: "Flores blancas, paz y reinicio", 
-            imagen: "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg", 
-            precio: "$390", 
-            emoji: "🤍",
-            mensajeWhatsApp: "🌸 *RAMO: PERDÓN* 🌸%0A%0A✨ Flores: Lirios blancos y margaritas%0A📦 Papel: Blanco con detalles dorados%0A🎁 Incluye: Tarjeta 'Lo siento'%0A💰 Precio: $390 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para pedir perdón."
-        },
-        { 
-            nombre: "Cumpleaños", 
-            descripcion: "Alegría y colores vibrantes", 
-            imagen: "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg", 
-            precio: "$480", 
-            emoji: "🎂",
-            mensajeWhatsApp: "🌸 *RAMO: CUMPLEAÑOS* 🌸%0A%0A✨ Flores: Flores variadas surtidas%0A📦 Papel: Multicolor festivo%0A🎁 Incluye: Globo + tarjeta de felicitación%0A💰 Precio: $480 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un cumpleaños."
-        },
-        { 
-            nombre: "Graduación", 
-            descripcion: "Éxito y nuevos comienzos", 
-            imagen: "https://images.pexels.com/photos/1024989/pexels-photo-1024989.jpeg", 
-            precio: "$600", 
-            emoji: "🎓",
-            mensajeWhatsApp: "🌸 *RAMO: GRADUACIÓN* 🌸%0A%0A✨ Flores: Girasoles y rosas amarillas%0A📦 Papel: Elegancia dorada%0A🎁 Incluye: Tarjeta de felicitación%0A💰 Precio: $600 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo para un graduado."
-        },
-        { 
-            nombre: "Flores aesthetic", 
-            descripcion: "Minimalismo y tendencia", 
-            imagen: "https://images.pexels.com/photos/983356/pexels-photo-983356.jpeg", 
-            precio: "$450", 
-            emoji: "🌸",
-            mensajeWhatsApp: "🌸 *RAMO: FLORES AESTHETIC* 🌸%0A%0A✨ Flores: Diseño minimalista con lavanda%0A📦 Papel: Celofán transparente%0A🎁 Incluye: Tarjeta personalizable%0A💰 Precio: $450 MXN%0A%0A💐 ¡Hola! Quiero pedir este ramo aesthetic."
-        }
-    ];
-
+    // ========== CARGAR COLECCIONES (SENTIMIENTOS) ==========
     function cargarColecciones() {
+        const sentimientos = getSentimientos();
         const grid = document.getElementById('coleccionesGrid');
         grid.innerHTML = '';
-        colecciones.forEach(col => {
+        
+        sentimientos.forEach(sent => {
             const card = document.createElement('div');
             card.className = 'card-coleccion';
+            // Usar imagen genérica según el sentimiento
+            let imagenUrl = "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg";
+            if (sent.nombre === "Te extraño") imagenUrl = "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg";
+            if (sent.nombre === "Te amo") imagenUrl = "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg";
+            if (sent.nombre === "Perdón") imagenUrl = "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg";
+            if (sent.nombre === "Cumpleaños") imagenUrl = "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg";
+            if (sent.nombre === "Graduación") imagenUrl = "https://images.pexels.com/photos/1024989/pexels-photo-1024989.jpeg";
+            if (sent.nombre === "Flores aesthetic") imagenUrl = "https://images.pexels.com/photos/983356/pexels-photo-983356.jpeg";
+            
             card.innerHTML = `
-                <div class="card-img" style="background-image: url('${col.imagen}'); background-size: cover;"></div>
+                <div class="card-img" style="background-image: url('${imagenUrl}'); background-size: cover;"></div>
                 <div class="card-info">
-                    <h3>${col.emoji} ${col.nombre}</h3>
-                    <p>${col.descripcion}</p>
-                    <span class="precio">${col.precio}</span>
+                    <h3>${sent.emoji} ${sent.nombre}</h3>
                     <div class="pedir-ahora-badge">📱 Toca para pedir</div>
                 </div>
             `;
-            // Al hacer clic en la tarjeta, enviar WhatsApp con el mensaje predefinido
             card.addEventListener('click', () => {
                 let membresiaTexto = '';
                 if (usuarioActual) {
                     membresiaTexto = `%0A👤 Membresía: ${usuarioActual.membresia}`;
                 }
-                const mensajeFinal = col.mensajeWhatsApp + membresiaTexto;
+                const mensajeFinal = sent.mensaje + membresiaTexto;
                 const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensajeFinal}`;
                 window.open(url, '_blank');
             });
@@ -613,21 +607,14 @@
         });
     }
 
-    // ========== 3. PERSONALIZADOR ==========
-    const floresMap = {
-        "Rosa roja": "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg",
-        "Girasol": "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg",
-        "Lavanda": "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg",
-        "Margarita": "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg"
-    };
-
+    // ========== PERSONALIZADOR ==========
     let seleccionFlor = "Rosa roja";
     let seleccionPapel = "Kraft";
     let seleccionExtra = "Ninguno";
     let fechaAgendada = "";
 
     function actualizarImagenRamo() {
-        const imgUrl = floresMap[seleccionFlor] || floresMap["Rosa roja"];
+        const imgUrl = floresImagenes[seleccionFlor] || floresImagenes["Rosa roja"];
         document.getElementById('ramoImg').src = imgUrl;
     }
 
@@ -635,8 +622,16 @@
         const floresDiv = document.getElementById('floresOptions');
         const papelDiv = document.getElementById('papelOptions');
         const extrasDiv = document.getElementById('extrasOptions');
+        
+        const flores = getFlores();
+        const papeles = getPapeles();
+        const extras = getExtras();
 
-        Object.keys(floresMap).forEach(flor => {
+        floresDiv.innerHTML = '';
+        papelDiv.innerHTML = '';
+        extrasDiv.innerHTML = '';
+
+        flores.forEach(flor => {
             const btn = document.createElement('button');
             btn.innerText = flor;
             btn.classList.add('btn-opcion');
@@ -650,7 +645,6 @@
             floresDiv.appendChild(btn);
         });
 
-        const papeles = ["Kraft", "Rosado pastel", "Celofán transparente"];
         papeles.forEach(papel => {
             const btn = document.createElement('button');
             btn.innerText = papel;
@@ -664,7 +658,6 @@
             papelDiv.appendChild(btn);
         });
 
-        const extras = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
         extras.forEach(extra => {
             const btn = document.createElement('button');
             btn.innerText = extra;
@@ -679,7 +672,6 @@
         });
     }
 
-    // Función para generar mensaje base del pedido personalizado
     function generarMensajePedido(conMembresia = true) {
         let membresiaTexto = '';
         if (conMembresia && usuarioActual) {
@@ -692,18 +684,16 @@
                `${membresiaTexto}`;
     }
 
-    // ========== 4. BOTÓN 1: PEDIR AHORA (personalizador) ==========
+    // ========== BOTONES WHATSAPP ==========
     document.getElementById('whatsappPedidoBtn').addEventListener('click', () => {
         const mensaje = generarMensajePedido(true) + `%0A%0A💐 ¡Hola! Quiero encargar este ramo personalizado para AHORA. ¿Cómo puedo pagar?`;
         const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`;
         window.open(url, '_blank');
     });
 
-    // ========== 5. BOTÓN 2: MOSTRAR CALENDARIO PARA AGENDAR ==========
     const selectorContainer = document.getElementById('selectorFechaContainer');
     const fechaInput = document.getElementById('fechaEntrega');
     
-    // Establecer fecha mínima (hoy)
     const hoy = new Date();
     const yyyy = hoy.getFullYear();
     const mm = String(hoy.getMonth() + 1).padStart(2, '0');
@@ -719,29 +709,23 @@
         }
     });
 
-    // ========== 6. BOTÓN: ENVIAR PEDIDO AGENDADO ==========
     document.getElementById('whatsappAgendadoBtn').addEventListener('click', () => {
         fechaAgendada = fechaInput.value;
-        
         if (!fechaAgendada) {
             alert("❌ Por favor, selecciona una fecha de entrega");
             return;
         }
-        
         const fechaObj = new Date(fechaAgendada);
         const fechaFormateada = fechaObj.toLocaleDateString('es-MX');
-        
         const mensajeBase = generarMensajePedido(true);
         const mensaje = mensajeBase + `%0A📅 *Fecha de entrega agendada:* ${fechaFormateada}%0A%0A💐 ¡Hola! Quiero agendar este ramo personalizado para el día ${fechaFormateada}. ¿Cómo puedo pagar?`;
-        
         const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`;
         window.open(url, '_blank');
-        
         selectorContainer.style.display = 'none';
         fechaInput.value = '';
     });
 
-    // ========== 7. GOOGLE CALENDAR ==========
+    // ========== GOOGLE CALENDAR ==========
     document.getElementById('agregarGoogleCalendarBtn').addEventListener('click', () => {
         const evento = document.getElementById('eventoNombre').value;
         const fecha = document.getElementById('eventoFecha').value;
@@ -772,14 +756,14 @@
         document.getElementById('eventoDescripcion').value = '';
     });
 
-    // ========== 8. MENÚ HAMBURGUESA ==========
+    // ========== MENÚ HAMBURGUESA ==========
     const menuIcon = document.getElementById('menuIcon');
     const navMenu = document.getElementById('navMenu');
     menuIcon.addEventListener('click', () => {
         navMenu.classList.toggle('active');
     });
 
-    // ========== 9. INICIALIZAR TODO ==========
+    // ========== INICIALIZAR ==========
     cargarUsuarioDesdeLocalStorage();
     cargarColecciones();
     cargarBotonesPersonalizador();
