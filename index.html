@@ -111,7 +111,7 @@
             box-shadow: 0 16px 30px rgba(232,160,160,0.2);
         }
         .card-img {
-            height: 300px;
+            height: 280px;
             background-size: cover;
             background-position: center;
         }
@@ -362,7 +362,6 @@
 
     <div id="bannerBeneficios" class="container" style="display: none;"></div>
 
-    <!-- COLECCIONES (SENTIMIENTOS) CON IMÁGENES IA -->
     <section id="colecciones">
         <div class="container">
             <h2 class="section-title">✨ Elige tu sentimiento ✨</h2>
@@ -371,7 +370,6 @@
         </div>
     </section>
 
-    <!-- PERSONALIZADOR CON IMÁGENES IA -->
     <section id="personalizador">
         <div class="container">
             <h2 class="section-title">🎨 Arma tu ramo único</h2>
@@ -417,7 +415,6 @@
         </div>
     </section>
 
-    <!-- CALENDARIO -->
     <section id="calendario">
         <div class="container">
             <h2 class="section-title">📅 Fechas importantes</h2>
@@ -443,21 +440,10 @@
 </footer>
 
 <script>
-    // ========== NÚMERO DE WHATSAPP ==========
     const WHATSAPP_NUMERO = "5219871009151";
 
-    // ========== CLAVES LOCALSTORAGE ==========
-    const STORAGE_FLORES = "admin_flores_personalizadas";
-    const STORAGE_PAPELES = "admin_papeles_personalizados";
-    const STORAGE_EXTRAS = "admin_extras_personalizados";
-    const STORAGE_SENTIMIENTOS = "admin_sentimientos_personalizados";
-
-    // ========== VALORES ORIGINALES ==========
-    const FLORES_ORIGINALES = ["Rosa roja", "Girasol", "Lavanda", "Margarita"];
-    const PAPELES_ORIGINALES = ["Kraft", "Rosado pastel", "Celofán transparente"];
-    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
-    
-    const SENTIMIENTOS_ORIGINALES = [
+    // DATOS CORRECTOS DE SENTIMIENTOS (con descripción y precio)
+    const SENTIMIENTOS_COMPLETOS = [
         { 
             nombre: "Te extraño", 
             emoji: "🌙", 
@@ -508,51 +494,13 @@
         }
     ];
 
-    // ========== FUNCIONES PARA OBTENER DATOS DINÁMICOS ==========
-    function getFlores() {
-        const guardadas = localStorage.getItem(STORAGE_FLORES);
-        return guardadas ? JSON.parse(guardadas) : [...FLORES_ORIGINALES];
-    }
+    const FLORES_ORIGINALES = ["Rosa roja", "Girasol", "Lavanda", "Margarita"];
+    const PAPELES_ORIGINALES = ["Kraft", "Rosado pastel", "Celofán transparente"];
+    const EXTRAS_ORIGINALES = ["Ninguno", "Chocolate + $25", "Tarjeta + $15"];
 
-    function getPapeles() {
-        const guardadas = localStorage.getItem(STORAGE_PAPELES);
-        return guardadas ? JSON.parse(guardadas) : [...PAPELES_ORIGINALES];
-    }
-
-    function getExtras() {
-        const guardadas = localStorage.getItem(STORAGE_EXTRAS);
-        return guardadas ? JSON.parse(guardadas) : [...EXTRAS_ORIGINALES];
-    }
-
-    function getSentimientos() {
-        const guardados = localStorage.getItem(STORAGE_SENTIMIENTOS);
-        return guardados ? JSON.parse(guardados) : JSON.parse(JSON.stringify(SENTIMIENTOS_ORIGINALES));
-    }
-
-    // ========== FUNCIÓN PARA OBTENER IMAGEN SEGÚN FLOR Y PAPEL ==========
-    function obtenerImagenRamo(flor, papel) {
-        const florMap = {
-            "Rosa roja": "rosa",
-            "Girasol": "girasol",
-            "Lavanda": "lavanda",
-            "Margarita": "margarita"
-        };
-        
-        const papelMap = {
-            "Kraft": "kraft",
-            "Rosado pastel": "pastel",
-            "Celofán transparente": "transparente"
-        };
-        
-        const florKey = florMap[flor] || "rosa";
-        const papelKey = papelMap[papel] || "kraft";
-        
-        return `${florKey}_${papelKey}.png`;
-    }
-
-    // ========== GESTIÓN DE USUARIO ==========
     let usuarioActual = null;
 
+    // ========== FUNCIONES ==========
     function cargarUsuarioDesdeLocalStorage() {
         const usuarioGuardado = localStorage.getItem('usuarioFloreria');
         if (usuarioGuardado) {
@@ -612,13 +560,11 @@
         bannerDiv.style.display = 'block';
     }
 
-    // ========== CARGAR COLECCIONES (SENTIMIENTOS) ==========
     function cargarColecciones() {
-        const sentimientos = getSentimientos();
         const grid = document.getElementById('coleccionesGrid');
         grid.innerHTML = '';
         
-        sentimientos.forEach(sent => {
+        SENTIMIENTOS_COMPLETOS.forEach(sent => {
             const card = document.createElement('div');
             card.className = 'card-coleccion';
             
@@ -644,33 +590,46 @@
         });
     }
 
-    // ========== PERSONALIZADOR ==========
+    // Personalizador
+    function obtenerImagenRamo(flor, papel) {
+        const florMap = {
+            "Rosa roja": "rosa",
+            "Girasol": "girasol",
+            "Lavanda": "lavanda",
+            "Margarita": "margarita"
+        };
+        
+        const papelMap = {
+            "Kraft": "kraft",
+            "Rosado pastel": "pastel",
+            "Celofán transparente": "transparente"
+        };
+        
+        const florKey = florMap[flor] || "rosa";
+        const papelKey = papelMap[papel] || "kraft";
+        
+        return `${florKey}_${papelKey}.png`;
+    }
+
     let seleccionFlor = "Girasol";
     let seleccionPapel = "Kraft";
     let seleccionExtra = "Ninguno";
-    let fechaAgendada = "";
 
     function actualizarImagenRamo() {
         const imagenUrl = obtenerImagenRamo(seleccionFlor, seleccionPapel);
-        const imgElement = document.getElementById('ramoImg');
-        imgElement.src = imagenUrl;
-        console.log(`Cargando imagen: ${imagenUrl}`);
+        document.getElementById('ramoImg').src = imagenUrl;
     }
 
     function cargarBotonesPersonalizador() {
         const floresDiv = document.getElementById('floresOptions');
         const papelDiv = document.getElementById('papelOptions');
         const extrasDiv = document.getElementById('extrasOptions');
-        
-        const flores = getFlores();
-        const papeles = getPapeles();
-        const extras = getExtras();
 
         floresDiv.innerHTML = '';
         papelDiv.innerHTML = '';
         extrasDiv.innerHTML = '';
 
-        flores.forEach(flor => {
+        FLORES_ORIGINALES.forEach(flor => {
             const btn = document.createElement('button');
             btn.innerText = flor;
             btn.classList.add('btn-opcion');
@@ -684,7 +643,7 @@
             floresDiv.appendChild(btn);
         });
 
-        papeles.forEach(papel => {
+        PAPELES_ORIGINALES.forEach(papel => {
             const btn = document.createElement('button');
             btn.innerText = papel;
             btn.classList.add('btn-opcion');
@@ -698,7 +657,7 @@
             papelDiv.appendChild(btn);
         });
 
-        extras.forEach(extra => {
+        EXTRAS_ORIGINALES.forEach(extra => {
             const btn = document.createElement('button');
             btn.innerText = extra;
             btn.classList.add('btn-opcion');
@@ -724,86 +683,56 @@
                `${membresiaTexto}`;
     }
 
-    // ========== BOTONES ==========
     document.getElementById('whatsappPedidoBtn').addEventListener('click', () => {
         const mensaje = generarMensajePedido(true) + `%0A%0A💐 ¡Hola! Quiero encargar este ramo personalizado para AHORA. ¿Cómo puedo pagar?`;
-        const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`;
-        window.open(url, '_blank');
+        window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`, '_blank');
     });
 
     const selectorContainer = document.getElementById('selectorFechaContainer');
     const fechaInput = document.getElementById('fechaEntrega');
-    
     const hoy = new Date();
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dd = String(hoy.getDate()).padStart(2, '0');
-    fechaInput.min = `${yyyy}-${mm}-${dd}`;
+    fechaInput.min = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
 
     document.getElementById('btnMostrarCalendario').addEventListener('click', () => {
-        if (selectorContainer.style.display === 'none' || selectorContainer.style.display === '') {
-            selectorContainer.style.display = 'block';
-            selectorContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        } else {
-            selectorContainer.style.display = 'none';
-        }
+        selectorContainer.style.display = selectorContainer.style.display === 'none' ? 'block' : 'none';
     });
 
     document.getElementById('whatsappAgendadoBtn').addEventListener('click', () => {
-        fechaAgendada = fechaInput.value;
-        if (!fechaAgendada) {
+        if (!fechaInput.value) {
             alert("❌ Por favor, selecciona una fecha de entrega");
             return;
         }
-        const fechaObj = new Date(fechaAgendada);
-        const fechaFormateada = fechaObj.toLocaleDateString('es-MX');
-        const mensajeBase = generarMensajePedido(true);
-        const mensaje = mensajeBase + `%0A📅 *Fecha de entrega agendada:* ${fechaFormateada}%0A%0A💐 ¡Hola! Quiero agendar este ramo personalizado para el día ${fechaFormateada}. ¿Cómo puedo pagar?`;
-        const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`;
-        window.open(url, '_blank');
+        const fechaFormateada = new Date(fechaInput.value).toLocaleDateString('es-MX');
+        const mensaje = generarMensajePedido(true) + `%0A📅 *Fecha de entrega agendada:* ${fechaFormateada}%0A%0A💐 ¡Hola! Quiero agendar este ramo para el día ${fechaFormateada}.`;
+        window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`, '_blank');
         selectorContainer.style.display = 'none';
         fechaInput.value = '';
     });
 
-    // GOOGLE CALENDAR
     document.getElementById('agregarGoogleCalendarBtn').addEventListener('click', () => {
         const evento = document.getElementById('eventoNombre').value;
         const fecha = document.getElementById('eventoFecha').value;
-        const descripcion = document.getElementById('eventoDescripcion').value;
-
         if (!evento || !fecha) {
-            alert("❌ Por favor, escribe el nombre del evento y selecciona una fecha");
+            alert("❌ Completa el nombre del evento y la fecha");
             return;
         }
-
         const fechaObj = new Date(fecha);
         const fechaInicio = fechaObj.toISOString().replace(/[-:]/g, '').split('.')[0];
-        const fechaFin = new Date(fechaObj.getTime() + 24 * 60 * 60 * 1000).toISOString().replace(/[-:]/g, '').split('.')[0];
-
-        const titulo = `🌸 ${evento} - Florería Pétalos`;
-        const detalle = descripcion 
-            ? `Recordatorio: ${descripcion}%0A%0A🌸 ¿Necesitas flores para este día? Contáctanos al 9871009151`
-            : `🌸 Fecha especial guardada desde Florería Pétalos.%0A%0A¿Necesitas un ramo? Escríbenos.`;
-
-        const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=${fechaInicio}/${fechaFin}&details=${encodeURIComponent(detalle)}&sf=true&output=xml`;
-
-        window.open(googleCalendarUrl, '_blank');
-        
-        alert(`✅ Se abrirá Google Calendar para guardar:\n📅 ${evento}\n📆 ${fecha}\n\nSolo presiona "Guardar" y el evento quedará en tu calendario.`);
-        
+        const fechaFin = new Date(fechaObj.getTime() + 86400000).toISOString().replace(/[-:]/g, '').split('.')[0];
+        const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("🌸 "+evento)}&dates=${fechaInicio}/${fechaFin}&details=${encodeURIComponent("Recordatorio desde Florería Pétalos")}`;
+        window.open(url, '_blank');
+        alert("✅ Se abrirá Google Calendar para guardar el evento");
         document.getElementById('eventoNombre').value = '';
         document.getElementById('eventoFecha').value = '';
         document.getElementById('eventoDescripcion').value = '';
     });
 
-    // MENÚ HAMBURGUESA
     const menuIcon = document.getElementById('menuIcon');
     const navMenu = document.getElementById('navMenu');
     menuIcon.addEventListener('click', () => {
         navMenu.classList.toggle('active');
     });
 
-    // INICIALIZAR
     cargarUsuarioDesdeLocalStorage();
     cargarColecciones();
     cargarBotonesPersonalizador();
