@@ -26,7 +26,6 @@
             padding: 0 24px;
         }
 
-        /* Header */
         header {
             padding: 20px 0;
             background: rgba(255, 245, 240, 0.95);
@@ -59,7 +58,6 @@
             color: #b8958a;
         }
 
-        /* Menú hamburguesa */
         .nav-menu {
             display: flex;
             gap: 32px;
@@ -76,7 +74,6 @@
             cursor: pointer;
         }
 
-        /* Secciones */
         section {
             padding: 60px 0;
         }
@@ -96,7 +93,6 @@
             margin: 12px auto 0;
         }
 
-        /* Colecciones */
         .colecciones-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -141,7 +137,6 @@
             margin-top: 8px;
         }
 
-        /* Personalizador */
         .personalizador {
             background: rgba(255, 248, 245, 0.9);
             border-radius: 48px;
@@ -160,9 +155,10 @@
         }
         .ramo-imagen img {
             width: 100%;
-            max-width: 300px;
+            max-width: 350px;
             border-radius: 28px;
             box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            background: white;
         }
         .grupo-opcion {
             background: white;
@@ -214,10 +210,6 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: 0.2s;
-        }
-        .btn-whatsapp:hover {
-            transform: scale(0.98);
         }
         .btn-agendar {
             background: #128C7E;
@@ -233,10 +225,6 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: 0.2s;
-        }
-        .btn-agendar:hover {
-            transform: scale(0.98);
         }
         .selector-fecha {
             background: white;
@@ -246,10 +234,6 @@
             font-size: 0.9rem;
             width: 100%;
             margin-top: 8px;
-            display: none;
-        }
-        .selector-fecha.visible {
-            display: block;
         }
 
         .btn-google {
@@ -262,11 +246,7 @@
             cursor: pointer;
             margin-top: 12px;
         }
-        .btn-google:hover {
-            background: #3367d6;
-        }
 
-        /* Zona de usuario */
         .user-badge {
             display: flex;
             align-items: center;
@@ -374,7 +354,7 @@
 
     <div id="bannerBeneficios" class="container" style="display: none;"></div>
 
-    <!-- COLECCIONES (SENTIMIENTOS) -->
+    <!-- COLECCIONES -->
     <section id="colecciones">
         <div class="container">
             <h2 class="section-title">✨ Elige tu sentimiento ✨</h2>
@@ -383,7 +363,7 @@
         </div>
     </section>
 
-    <!-- PERSONALIZADOR -->
+    <!-- PERSONALIZADOR CON IMÁGENES IA -->
     <section id="personalizador">
         <div class="container">
             <h2 class="section-title">🎨 Arma tu ramo único</h2>
@@ -391,9 +371,9 @@
                 <div class="personalizador-layout">
                     <div class="ramo-preview">
                         <div class="ramo-imagen">
-                            <img id="ramoImg" src="https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg" alt="Ramo">
+                            <img id="ramoImg" src="girasol_kraft.png" alt="Ramo">
                         </div>
-                        <p style="margin-top: 12px;">✨ Cambia las opciones y personaliza</p>
+                        <p style="margin-top: 12px;">✨ Cambia las opciones y mira el resultado</p>
                     </div>
                     <div>
                         <div class="grupo-opcion">
@@ -417,9 +397,9 @@
                                 📅 Agendar entrega
                             </button>
                             <div id="selectorFechaContainer" style="display: none;">
-                                <input type="date" id="fechaEntrega" class="selector-fecha visible" min="">
+                                <input type="date" id="fechaEntrega" class="selector-fecha" min="">
                                 <button id="whatsappAgendadoBtn" class="btn-whatsapp" style="background:#128C7E;">
-                                    📅 Enviar pedido agendado por WhatsApp
+                                    📅 Enviar pedido agendado
                                 </button>
                             </div>
                         </div>
@@ -499,13 +479,33 @@
         return guardados ? JSON.parse(guardados) : JSON.parse(JSON.stringify(SENTIMIENTOS_ORIGINALES));
     }
 
-    // ========== IMÁGENES DE FLORES (para el personalizador) ==========
-    const floresImagenes = {
-        "Rosa roja": "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg",
-        "Girasol": "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg",
-        "Lavanda": "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg",
-        "Margarita": "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg"
-    };
+    // ========== FUNCIÓN PARA OBTENER IMAGEN SEGÚN FLOR Y PAPEL ==========
+    // Los nombres de archivo coinciden EXACTAMENTE con lo que subiste:
+    // girasol_kraft.png, girasol_pastel.png, girasol_transparente.png
+    // rosa_kraft.png, rosa_pastel.png, rosa_transparente.png
+    // lavanda_kraft.png, lavanda_pastel.png, lavanda_transparente.png
+    // margarita_kraft.png, margarita_pastel.png, margarita_transparente.png
+    function obtenerImagenRamo(flor, papel) {
+        // Mapeo de nombres a los nombres de archivo
+        const florMap = {
+            "Rosa roja": "rosa",
+            "Girasol": "girasol",
+            "Lavanda": "lavanda",
+            "Margarita": "margarita"
+        };
+        
+        const papelMap = {
+            "Kraft": "kraft",
+            "Rosado pastel": "pastel",
+            "Celofán transparente": "transparente"
+        };
+        
+        const florKey = florMap[flor] || "rosa";
+        const papelKey = papelMap[papel] || "kraft";
+        
+        // Ruta directa a la imagen (están en la raíz del repositorio)
+        return `${florKey}_${papelKey}.png`;
+    }
 
     // ========== GESTIÓN DE USUARIO ==========
     let usuarioActual = null;
@@ -569,23 +569,25 @@
         bannerDiv.style.display = 'block';
     }
 
-    // ========== CARGAR COLECCIONES (SENTIMIENTOS) ==========
+    // ========== CARGAR COLECCIONES ==========
     function cargarColecciones() {
         const sentimientos = getSentimientos();
         const grid = document.getElementById('coleccionesGrid');
         grid.innerHTML = '';
         
+        const imagenesSentimientos = {
+            "Te extraño": "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg",
+            "Te amo": "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg",
+            "Perdón": "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg",
+            "Cumpleaños": "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg",
+            "Graduación": "https://images.pexels.com/photos/1024989/pexels-photo-1024989.jpeg",
+            "Flores aesthetic": "https://images.pexels.com/photos/983356/pexels-photo-983356.jpeg"
+        };
+        
         sentimientos.forEach(sent => {
             const card = document.createElement('div');
             card.className = 'card-coleccion';
-            // Usar imagen genérica según el sentimiento
-            let imagenUrl = "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg";
-            if (sent.nombre === "Te extraño") imagenUrl = "https://images.pexels.com/photos/131723/pexels-photo-131723.jpeg";
-            if (sent.nombre === "Te amo") imagenUrl = "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg";
-            if (sent.nombre === "Perdón") imagenUrl = "https://images.pexels.com/photos/1121550/pexels-photo-1121550.jpeg";
-            if (sent.nombre === "Cumpleaños") imagenUrl = "https://images.pexels.com/photos/1200074/pexels-photo-1200074.jpeg";
-            if (sent.nombre === "Graduación") imagenUrl = "https://images.pexels.com/photos/1024989/pexels-photo-1024989.jpeg";
-            if (sent.nombre === "Flores aesthetic") imagenUrl = "https://images.pexels.com/photos/983356/pexels-photo-983356.jpeg";
+            const imagenUrl = imagenesSentimientos[sent.nombre] || "https://images.pexels.com/photos/56866/roses-romantic-bouquet-red-56866.jpeg";
             
             card.innerHTML = `
                 <div class="card-img" style="background-image: url('${imagenUrl}'); background-size: cover;"></div>
@@ -608,14 +610,16 @@
     }
 
     // ========== PERSONALIZADOR ==========
-    let seleccionFlor = "Rosa roja";
+    let seleccionFlor = "Girasol";
     let seleccionPapel = "Kraft";
     let seleccionExtra = "Ninguno";
     let fechaAgendada = "";
 
     function actualizarImagenRamo() {
-        const imgUrl = floresImagenes[seleccionFlor] || floresImagenes["Rosa roja"];
-        document.getElementById('ramoImg').src = imgUrl;
+        const imagenUrl = obtenerImagenRamo(seleccionFlor, seleccionPapel);
+        const imgElement = document.getElementById('ramoImg');
+        imgElement.src = imagenUrl;
+        console.log(`Cargando imagen: ${imagenUrl}`);
     }
 
     function cargarBotonesPersonalizador() {
@@ -654,6 +658,7 @@
                 seleccionPapel = papel;
                 document.querySelectorAll('#papelOptions .btn-opcion').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                actualizarImagenRamo();
             };
             papelDiv.appendChild(btn);
         });
@@ -684,7 +689,7 @@
                `${membresiaTexto}`;
     }
 
-    // ========== BOTONES WHATSAPP ==========
+    // ========== BOTONES ==========
     document.getElementById('whatsappPedidoBtn').addEventListener('click', () => {
         const mensaje = generarMensajePedido(true) + `%0A%0A💐 ¡Hola! Quiero encargar este ramo personalizado para AHORA. ¿Cómo puedo pagar?`;
         const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${mensaje}`;
@@ -725,7 +730,7 @@
         fechaInput.value = '';
     });
 
-    // ========== GOOGLE CALENDAR ==========
+    // GOOGLE CALENDAR
     document.getElementById('agregarGoogleCalendarBtn').addEventListener('click', () => {
         const evento = document.getElementById('eventoNombre').value;
         const fecha = document.getElementById('eventoFecha').value;
@@ -756,14 +761,14 @@
         document.getElementById('eventoDescripcion').value = '';
     });
 
-    // ========== MENÚ HAMBURGUESA ==========
+    // MENÚ HAMBURGUESA
     const menuIcon = document.getElementById('menuIcon');
     const navMenu = document.getElementById('navMenu');
     menuIcon.addEventListener('click', () => {
         navMenu.classList.toggle('active');
     });
 
-    // ========== INICIALIZAR ==========
+    // INICIALIZAR
     cargarUsuarioDesdeLocalStorage();
     cargarColecciones();
     cargarBotonesPersonalizador();
